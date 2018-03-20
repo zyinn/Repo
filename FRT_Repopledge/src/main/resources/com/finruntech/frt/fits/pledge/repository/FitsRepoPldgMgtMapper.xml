@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsRepoPldgMgtMapper">
+
+    <select id="findRepoPldgMgtEntity" parameterType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgMgtDto" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgMgtResultDto">
+        SELECT
+           pldgMgt.SUBJECT_NUM as subJectNum,
+           pldgMgt.SUBJECT_TYPE as subJectType,
+           pldgMgt.P_REPO_CODE as pRepoCode,
+           pldgMgt.P_BOND_CODE as pBondCode,
+           pldgMgt.P_REPO_NAME as pRepoName,
+           pldgMgt.P_BOND_NAME as pBondName,
+           pldgMgt.P_PORTFOLIO_SECU as pPortfolioSecu ,
+           pldgMgt.P_PORTFOLIO_CASH as pPortfolioCash,
+           pldgMgt.P_HOST_SECU as pHostSecu,
+           pldgMgt.P_HOST_CASH as pHostCash,
+           pldgMgt.P_ACCRINTST as pAccrIntst,
+           pldgMgt.P_UDLYPRCE_CLEAN as pUdlyprceClean,
+           pldgMgt.P_HAIRCUT*100 as pHairCut,
+           pldgMgt.P_DISCOUNTRATIO*100 as pDiscountRatio,
+           pldgMgt.P_COUNT as pCount,
+           pldgMgt.P_SETLAMOUNT as pSetlAmount,
+           GET_BCODE_PRICE(pldgMgt.P_BOND_CODE,'PD') as bPriceDirty,
+           GET_BCODE_PARVALUE(pldgMgt.P_BOND_CODE) as bIssueParvalue,
+           dict.DICT_DESCRIPTION as psAcctClassName
+        FROM FRT_FITS_REPOPLDG_PLDGMGT pldgMgt
+        LEFT JOIN FRT_FITS_ACC_PORTFOLIO_SECU accSecu
+        ON accSecu.PS_ACCT_NUM = pldgMgt.P_PORTFOLIO_SECU
+        LEFT JOIN FRT_FITS_DICTIONARY dict
+        ON dict.DICT_KEY = 'AccountingType' and dict.DICT_VALUE = accSecu.PS_ACCT_CLASS
+        WHERE pldgMgt.SUBJECT_NUM=#{subJectNum,jdbcType=VARCHAR}
+                AND pldgMgt.SUBJECT_TYPE=#{subJectType,jdbcType=VARCHAR}
+                AND pldgMgt.P_REPO_CODE=#{pRepoCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findRepoPldgSMgt" parameterType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgMgtDto" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgMgtResultDto">
+        SELECT
+        pldgMgt.SUBJECT_NUM as subJectNum,
+        pldgMgt.SUBJECT_TYPE as subJectType,
+        pldgMgt.P_REPO_CODE as pRepoCode,
+        pldgMgt.P_BOND_CODE as pBondCode,
+        pldgMgt.P_REPO_NAME as pRepoName,
+        pldgMgt.P_BOND_NAME as pBondName,
+        pldgMgt.P_PORTFOLIO_SECU as pPortfolioSecu ,
+        pldgMgt.P_PORTFOLIO_CASH as pPortfolioCash,
+        pldgMgt.P_HOST_SECU as pHostSecu,
+        pldgMgt.P_HOST_CASH as pHostCash,
+        pldgMgt.P_ACCRINTST as pAccrIntst,
+        pldgMgt.P_UDLYPRCE_CLEAN as pUdlyprceClean,
+        pldgMgt.P_HAIRCUT*100 as pHairCut,
+        pldgMgt.P_DISCOUNTRATIO*100 as pDiscountRatio,
+        pldgMgt.P_COUNT as pCount,
+        pldgMgt.P_SETLAMOUNT as pSetlAmount
+        FROM FRT_FITS_REPOPLDG_PLDGMGT pldgMgt
+        WHERE pldgMgt.P_REPO_DIRECTION='S'
+        <if test="subJectNum !=null and subJectNum !=''" >
+            AND pldgMgt.SUBJECT_NUM=#{subJectNum,jdbcType=VARCHAR}
+        </if>
+        <if test="subJectType !=null and subJectType !=''" >
+            AND pldgMgt.SUBJECT_TYPE=#{subJectType,jdbcType=VARCHAR}
+        </if>
+        <if test="pRepoCode !=null and pRepoCode !=''" >
+            AND pldgMgt.P_REPO_CODE=#{pRepoCode,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+    <select id="findPldgMgtEntity" parameterType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgMgtDto" resultType="com.finruntech.frt.fits.pledge.model.FitsRepoPldgMgtEntity">
+        SELECT
+        pldgMgt.SUBJECT_NUM as subJectNum,
+        pldgMgt.SUBJECT_TYPE as subJectType,
+        pldgMgt.P_REPO_CODE as pRepoCode,
+        pldgMgt.P_BOND_CODE as pBondCode,
+        pldgMgt.P_REPO_NAME as pRepoName,
+        pldgMgt.P_BOND_NAME as pBondName,
+        pldgMgt.P_ACCRINTST as pAccrIntst,
+        pldgMgt.P_UDLYPRCE_CLEAN as pUdlyprceClean,
+        pldgMgt.P_HAIRCUT*100 as pHairCut,
+        pldgMgt.P_DISCOUNTRATIO*100 as pDiscountRatio,
+        pldgMgt.P_COUNT as pCount,
+        pldgMgt.P_SETLAMOUNT as pSetlAmount,
+        pldgMgt.P_PORTFOLIO_SECU as pPortfolioSecu ,
+        pldgMgt.P_PORTFOLIO_CASH as pPortfolioCash,
+        pldgMgt.P_HOST_SECU as pHostSecu,
+        pldgMgt.P_HOST_CASH as pHostCash
+        FROM FRT_FITS_REPOPLDG_PLDGMGT pldgMgt
+        WHERE pldgMgt.SUBJECT_NUM=#{subJectNum,jdbcType=VARCHAR}
+        AND pldgMgt.SUBJECT_TYPE=#{subJectType,jdbcType=VARCHAR}
+        AND pldgMgt.P_REPO_CODE=#{pRepoCode,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="saveRepoPldgMgtEntity" parameterType="java.util.List">
+        INSERT INTO FRT_FITS_REPOPLDG_PLDGMGT(
+            SUBJECT_NUM,SUBJECT_TYPE,P_REPO_CODE,P_BOND_CODE,P_REPO_DIRECTION,P_REPO_NAME,P_BOND_NAME,
+            P_ACCRINTST,P_UDLYPRCE_CLEAN,P_HAIRCUT,P_DISCOUNTRATIO,P_COUNT,P_SETLAMOUNT,
+            P_PORTFOLIO_SECU,P_PORTFOLIO_CASH,P_HOST_SECU,P_HOST_CASH,P_DEAL_DATE,P_SETTLEDATE1ST,P_SETTLEDATE2ND)
+        select inst.* from(
+        <foreach collection="list" item="item" index="index" separator="union" open="(" close=")">
+            SELECT
+            #{item.subJectNum,jdbcType=VARCHAR},#{item.subJectType,jdbcType=VARCHAR},#{item.pRepoCode,jdbcType=VARCHAR},
+            #{item.pBondCode,jdbcType=VARCHAR},#{item.pRepoDirection,jdbcType=VARCHAR},#{item.pRepoName,jdbcType=VARCHAR},
+            #{item.pBondName,jdbcType=VARCHAR},#{item.pAccrIntst,jdbcType=DECIMAL},#{item.pUdlyprceClean,jdbcType=DECIMAL},
+            #{item.pHairCut,jdbcType=DECIMAL}/100,#{item.pDiscountRatio,jdbcType=DECIMAL}/100,#{item.pCount,jdbcType=DECIMAL},#{item.pSetlAmount,jdbcType=DECIMAL},
+            #{item.pPortfolioSecu,jdbcType=VARCHAR},
+            #{item.pPortfolioCash,jdbcType=VARCHAR},
+            #{item.pHostSecu,jdbcType=VARCHAR},
+            #{item.pHostCash,jdbcType=VARCHAR},
+            #{item.pDealDate,jdbcType=VARCHAR},
+            #{item.pSettleDate1st,jdbcType=VARCHAR},
+            #{item.pSettleDate2nd,jdbcType=VARCHAR}
+            FROM dual
+        </foreach>
+        )inst
+    </insert>
+
+    <delete id="deleteRepoPldgMgtEntity" parameterType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgMgtDto">
+        DELETE
+        FROM FRT_FITS_REPOPLDG_PLDGMGT
+        WHERE
+          SUBJECT_NUM=#{subJectNum,jdbcType=VARCHAR}
+          <if test="subJectType !=null and subJectType !=''" >
+              AND SUBJECT_TYPE=#{subJectType,jdbcType=VARCHAR}
+          </if>
+          <if test="pRepoCode !=null and pRepoCode !=''" >
+              AND P_REPO_CODE=#{pRepoCode,jdbcType=VARCHAR}
+          </if>
+    </delete>
+</mapper>

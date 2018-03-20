@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2016 abel533@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsRepoPldgInstMapper" >
+    <resultMap id="PledgeResultMap" type="com.finruntech.frt.fits.pledge.model.dto.RepoInstDto">
+        <result property="fFormId" column="F_FORM_ID" jdbcType="BIGINT"/>
+        <result property="fFormNum" column="F_FORM_NUM" jdbcType="VARCHAR"/>
+        <result property="aprvFormNum" column="APRVFORM_NUM" jdbcType="VARCHAR"/>
+        <result property="fTrdAcct" column="F_TRDACCT" jdbcType="VARCHAR"/>
+        <result property="fPortfAcctSecu" column="F_PORTFACCT_SECU" jdbcType="VARCHAR"/>
+        <result property="fPortfAcctCash" column="F_PORTFACCT_CASH" jdbcType="VARCHAR"/>
+        <result property="fCustAcctSecu" column="F_CUSTACCT_SECU" jdbcType="VARCHAR"/>
+        <result property="fCustAcctCash" column="F_CUSTACCT_CASH" jdbcType="VARCHAR"/>
+        <result property="fRepoCode" column="F_REPO_CODE" jdbcType="VARCHAR"/>
+        <result property="fInstrument" column="F_INSTRUMENT" jdbcType="VARCHAR"/>
+        <result property="fExecution" column="F_EXECUTION" jdbcType="VARCHAR"/>
+        <result property="fSettleType1st" column="F_SETTLE_TYPE1ST" jdbcType="VARCHAR"/>
+        <result property="fSettleType2nd" column="F_SETTLE_TYPE2ND" jdbcType="VARCHAR"/>
+        <result property="fCount" column="F_COUNT" jdbcType="BIGINT"/>
+        <result property="fRepoRate" column="F_REPO_RATE" jdbcType="DECIMAL"/>
+        <result property="fAmount" column="F_AMOUNT" jdbcType="DECIMAL"/>
+        <result property="fMatureAmount" column="F_MATURE_AMOUNT" jdbcType="DECIMAL"/>
+        <result property="fBegDate" column="F_BEG_DATE" jdbcType="VARCHAR"/>
+        <result property="fEndDate" column="F_END_DATE" jdbcType="VARCHAR"/>
+        <result property="fSubmitDate" column="F_SUBMIT_DATE" jdbcType="VARCHAR"/>
+        <result property="fInitiator" column="F_INITIATOR" jdbcType="VARCHAR"/>
+        <result property="fExecutor" column="F_EXECUTOR" jdbcType="VARCHAR"/>
+        <result property="fTradeDirection" column="F_TRADE_DIRECTION" jdbcType="VARCHAR"/>
+        <result property="fAccountingType" column="F_ACCOUNTING_TYPE" jdbcType="VARCHAR"/>
+        <result property="fCounterpartyId" column="F_COUNTERPARTY_ID" jdbcType="VARCHAR"/>
+        <result property="fCpTrader" column="F_CP_TRADER" jdbcType="VARCHAR"/>
+        <result property="fCpCashAcc" column="F_CP_CASHACC" jdbcType="VARCHAR"/>
+        <result property="fTradeDate" column="F_TRADE_DATE" jdbcType="VARCHAR"/>
+        <result property="fSettleDate1st" column="F_SETTLE_DATE1ST" jdbcType="VARCHAR"/>
+        <result property="fSettleDate2nd" column="F_SETTLE_DATE2ND" jdbcType="VARCHAR"/>
+        <result property="fSettleSpeed" column="F_SETTLE_SPEED" jdbcType="VARCHAR"/>
+        <result property="fQuoteType" column="F_QUOTE_TYPE" jdbcType="VARCHAR"/>
+        <result property="fAmountBalance" column="F_AMOUNT_BALANCE" jdbcType="DECIMAL"/>
+        <result property="fInstStatus" column="F_INST_STATUS" jdbcType="VARCHAR"/>
+        <result property="fRemarks" column="F_REMARKS" jdbcType="VARCHAR"/>
+        <result property="fTrdAi" column="F_TRD_AI" jdbcType="DECIMAL"/>
+        <result property="fTrdFullPrice" column="F_TRD_FULL_PRICE" jdbcType="DECIMAL"/>
+        <result property="fTrdParValue" column="F_TRD_PAR_VALUE" jdbcType="DECIMAL"/>
+        <result property="fTrdNetPrice" column="F_TRD_NET_PRICE" jdbcType="DECIMAL"/>
+        <result property="fTrdYtm" column="F_TRD_YTM" jdbcType="DECIMAL"/>
+        <result property="fTrdTotolAi" column="F_TRD_TOTOL_AI" jdbcType="DECIMAL"/>
+        <result property="fTrdSettleAmount" column="F_TRD_SETTLE_AMOUNT" jdbcType="DECIMAL"/>
+        <result property="fPledgeRatio" column="F_PLEDGE_RATIO" jdbcType="DECIMAL"/>
+        <result property="fPledgeTerm" column="F_PLEDGE_TERM" jdbcType="BIGINT"/>
+        <result property="fTrdBondPriceType" column="F_TRD_BONDPRICE_TYPE" jdbcType="VARCHAR"/>
+        <result property="auditCreatedBy" column="AUDIT_CREATEDBY" jdbcType="VARCHAR"/>
+        <result property="auditCreateTime" column="AUDIT_CREATETIME" jdbcType="VARCHAR"/>
+        <result property="auditModifiedBy" column="AUDIT_MODIFIEDBY" jdbcType="VARCHAR"/>
+        <result property="auditModifiedTime" column="AUDIT_MODIFIEDTIME" jdbcType="VARCHAR"/>
+        <result property="fInitiatorName" column="F_INITIATOR_NAME" jdbcType="VARCHAR"/>
+        <result property="executorName" column="EXECUTOR_NAME" jdbcType="VARCHAR"/>
+        <result property="fTradeDirectionName" column="F_TRADE_DIRECTION_NAME" jdbcType="VARCHAR"/>
+        <result property="fPortfacctCashName" column="F_PORTFACCT_CASH_NAME" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--新增投资指令单-->
+    <insert id="saveFitsPledgeInst" parameterType="FitsRepoPldgInstEntity">
+          INSERT INTO FRT_FITS_REPOPLDG_INST( F_FORM_ID,F_FORM_NUM,APRVFORM_NUM,F_TRDACCT,F_PORTFACCT_SECU,F_PORTFACCT_CASH
+                                                ,F_CUSTACCT_SECU,F_CUSTACCT_CASH,F_REPO_CODE,F_INSTRUMENT ,F_EXECUTION,F_SETTLE_TYPE1ST
+                                                ,F_SETTLE_TYPE2ND,F_COUNT,F_REPO_RATE,F_AMOUNT,F_MATURE_AMOUNT
+                                                ,F_BEG_DATE ,F_END_DATE,F_SUBMIT_DATE
+                                                ,F_INITIATOR,F_EXECUTOR ,F_TRADE_DIRECTION
+                                                ,F_ACCOUNTING_TYPE,F_COUNTERPARTY_ID ,F_CP_TRADER,F_CP_CASHACC,F_TRADE_DATE
+                                                ,F_SETTLE_DATE1ST,F_SETTLE_DATE2ND ,F_SETTLE_SPEED
+                                                ,F_QUOTE_TYPE,F_AMOUNT_BALANCE,F_INST_STATUS ,F_REMARKS
+                                                ,F_TRD_AI ,F_TRD_FULL_PRICE ,F_TRD_PAR_VALUE,F_TRD_NET_PRICE
+                                                ,F_TRD_YTM,F_TRD_TOTOL_AI ,F_TRD_SETTLE_AMOUNT,F_PLEDGE_RATIO
+                                                ,F_PLEDGE_TERM ,F_TRD_BONDPRICE_TYPE,AUDIT_CREATEDBY
+                                                ,AUDIT_CREATETIME,AUDIT_MODIFIEDBY,AUDIT_MODIFIEDTIME
+           ) VALUES(
+                    SEQ_F_FORM_ID.nextval,'INST'|| to_char(sysdate,'yyyyMMddhh24mi') || SEQ_F_FORM_ID.nextval ,'REPO'|| to_char(sysdate,'yyyyMMddhh24mi') || BPM_APRVFORM_SEQ.nextval,
+                    #{fTrdAcct,jdbcType=VARCHAR},#{fPortfAcctSecu,jdbcType=VARCHAR},#{fPortfAcctCash,jdbcType=VARCHAR},
+                    #{fCustAcctSecu,jdbcType=VARCHAR},#{fCustAcctCash,jdbcType=VARCHAR},#{fRepoCode,jdbcType=VARCHAR},
+                    #{fInstrument,jdbcType=VARCHAR},#{fExecution,jdbcType=VARCHAR},#{fSettleType1st,jdbcType=VARCHAR},#{fSettleType2nd,jdbcType=VARCHAR},
+                    #{fCount,jdbcType=BIGINT},#{fRepoRate,jdbcType=DECIMAL},#{fAmount,jdbcType=DECIMAL},#{fMatureAmount,jdbcType=DECIMAL},#{fBegDate,jdbcType=VARCHAR},#{fEndDate,jdbcType=VARCHAR},
+                    #{fSubmitDate,jdbcType=VARCHAR},#{fInitiator,jdbcType=VARCHAR},#{fExecutor,jdbcType=VARCHAR},#{fTradeDirection,jdbcType=VARCHAR},#{fAccountingType,jdbcType=VARCHAR},
+                    #{fCounterpartyId,jdbcType=VARCHAR},#{fCpTrader,jdbcType=VARCHAR},#{fCpCashAcc,jdbcType=VARCHAR},
+                    #{fTradeDate,jdbcType=VARCHAR},#{fSettleDate1st,jdbcType=VARCHAR},#{fSettleDate2nd,jdbcType=VARCHAR},#{fSettleSpeed,jdbcType=VARCHAR},#{fQuoteType,jdbcType=VARCHAR},
+                    #{fAmountBalance,jdbcType=DECIMAL},#{fInstStatus,jdbcType=VARCHAR},#{fRemarks,jdbcType=VARCHAR},#{fTrdAi,jdbcType=DECIMAL},
+                    #{fTrdFullPrice,jdbcType=DECIMAL},#{fTrdParValue,jdbcType=DECIMAL},#{fTrdNetPrice,jdbcType=DECIMAL},#{fTrdYtm,jdbcType=DECIMAL},#{fTrdTotolAi,jdbcType=DECIMAL},
+                    #{fTrdSettleAmount,jdbcType=DECIMAL},#{fPledgeRatio,jdbcType=DECIMAL},#{fPledgeTerm,jdbcType=BIGINT},
+                    #{fTrdBondPriceType,jdbcType=VARCHAR},#{auditCreatedBy,jdbcType=VARCHAR},#{auditCreateTime,jdbcType=VARCHAR},#{auditModifiedBy,jdbcType=VARCHAR},#{auditModifiedTime,jdbcType=VARCHAR})
+    </insert>
+
+    <!--修改投资指令单-->
+    <update id="updateFitsPledgeInst" parameterType="FitsRepoPldgInstEntity">
+          UPDATE FRT_FITS_REPOPLDG_INST
+          SET   F_TRDACCT = #{fTrdAcct,jdbcType=VARCHAR},
+                F_PORTFACCT_SECU =#{fPortfAcctSecu,jdbcType=VARCHAR},
+                F_PORTFACCT_CASH =#{fPortfAcctCash,jdbcType=VARCHAR},
+                F_CUSTACCT_SECU =#{fCustAcctSecu,jdbcType=VARCHAR},
+                F_CUSTACCT_CASH =#{fCustAcctCash,jdbcType=VARCHAR},
+                F_REPO_CODE =#{fRepoCode,jdbcType=VARCHAR},
+                F_INSTRUMENT = #{fInstrument,jdbcType=VARCHAR},
+                F_EXECUTION =#{fExecution,jdbcType=VARCHAR},
+                F_SETTLE_TYPE1ST = #{fSettleType1st,jdbcType=VARCHAR},
+                F_SETTLE_TYPE2ND = #{fSettleType2nd,jdbcType=VARCHAR},
+                F_COUNT = #{fCount,jdbcType=BIGINT},
+                F_REPO_RATE = #{fRepoRate,jdbcType=DECIMAL},
+                F_AMOUNT = #{fAmount,jdbcType=DECIMAL},
+                F_MATURE_AMOUNT = #{fMatureAmount,jdbcType=DECIMAL},
+                F_BEG_DATE = #{fBegDate,jdbcType=VARCHAR},
+                F_END_DATE = #{fEndDate,jdbcType=VARCHAR},
+                F_SUBMIT_DATE = #{fSubmitDate,jdbcType=VARCHAR},
+                F_INITIATOR = #{fInitiator,jdbcType=VARCHAR},
+                F_EXECUTOR = #{fExecutor,jdbcType=VARCHAR},
+                F_TRADE_DIRECTION = #{fTradeDirection,jdbcType=VARCHAR},
+                F_ACCOUNTING_TYPE = #{fAccountingType,jdbcType=VARCHAR},
+                F_COUNTERPARTY_ID = #{fCounterpartyId,jdbcType=VARCHAR},
+                F_CP_TRADER = #{fCpTrader,jdbcType=VARCHAR},
+                F_CP_CASHACC = #{fCpCashAcc,jdbcType=VARCHAR},
+                F_TRADE_DATE =  #{fTradeDate,jdbcType=VARCHAR},
+                F_SETTLE_DATE1ST = #{fSettleDate1st,jdbcType=VARCHAR},
+                F_SETTLE_DATE2ND = #{fSettleDate2nd,jdbcType=VARCHAR},
+                F_SETTLE_SPEED = #{fSettleSpeed,jdbcType=VARCHAR},
+                F_QUOTE_TYPE = #{fQuoteType,jdbcType=VARCHAR},
+                F_AMOUNT_BALANCE = #{fAmountBalance,jdbcType=DECIMAL},
+                F_INST_STATUS = #{fInstStatus,jdbcType=VARCHAR},
+                F_REMARKS = #{fRemarks,jdbcType=VARCHAR},
+                F_TRD_AI = #{fTrdAi,jdbcType=DECIMAL},
+                F_TRD_FULL_PRICE = #{fTrdFullPrice,jdbcType=DECIMAL},
+                F_TRD_PAR_VALUE = #{fTrdParValue,jdbcType=DECIMAL},
+                F_TRD_NET_PRICE = #{fTrdNetPrice,jdbcType=DECIMAL},
+                F_TRD_YTM = #{fTrdYtm,jdbcType=DECIMAL},
+                F_TRD_TOTOL_AI =#{fTrdTotolAi,jdbcType=DECIMAL},
+                F_TRD_SETTLE_AMOUNT =#{fTrdSettleAmount,jdbcType=DECIMAL},
+                F_PLEDGE_RATIO = #{fPledgeRatio,jdbcType=DECIMAL},
+                F_PLEDGE_TERM = #{fPledgeTerm,jdbcType=BIGINT},
+                F_TRD_BONDPRICE_TYPE = #{fTrdBondPriceType,jdbcType=VARCHAR},
+                AUDIT_CREATEDBY = #{auditCreatedBy,jdbcType=VARCHAR},
+                AUDIT_CREATETIME = #{auditCreateTime,jdbcType=VARCHAR},
+                AUDIT_MODIFIEDBY = #{auditModifiedBy,jdbcType=VARCHAR},
+                AUDIT_MODIFIEDTIME = #{auditModifiedTime,jdbcType=VARCHAR}
+          WHERE F_FORM_NUM = #{fFormNum,jdbcType=VARCHAR}
+    </update>
+
+    <!--修改投资指令单状态-->
+    <update id="updateFitsPledgeInstStatus" parameterType="FitsRepoPldgInstEntity">
+        UPDATE FRT_FITS_REPOPLDG_INST
+        SET  F_INST_STATUS = #{fInstStatus,jdbcType=VARCHAR}
+        WHERE APRVFORM_NUM = #{aprvFormNum,jdbcType=VARCHAR}
+    </update>
+
+    <!--根据审批单号修改投资指令单-->
+    <update id="updateFitsPledgeInstByFormNum" parameterType="java.lang.String">
+        UPDATE FRT_FITS_REPOPLDG_INST
+        SET
+            F_FORM_ID=SEQ_F_FORM_ID.nextval,
+            F_FORM_NUM='INST'|| to_char(sysdate,'yyyyMMddhh24mi') || SEQ_F_FORM_ID.nextval ,
+            APRVFORM_NUM='REPO'|| to_char(sysdate,'yyyyMMddhh24mi') || BPM_APRVFORM_SEQ.nextval
+        WHERE APRVFORM_NUM = #{formNum,jdbcType=VARCHAR}
+    </update>
+
+
+    <!-- 指令执行-查询 -->
+    <select id="exeInstQuery" parameterType="com.finruntech.frt.fits.pledge.model.dto.RepoInstDto" resultType="com.finruntech.frt.fits.pledge.model.dto.RepoInstDto">
+        <include refid="findBaseInst"/>
+        <where>
+            repoPldgInst.F_INST_STATUS IN
+            <foreach collection="fInstStatusList" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            <if test="fPortfAcctCash != null and fPortfAcctCash != '' ">
+                AND repoPldgInst.F_PORTFACCT_CASH = #{fPortfAcctCash,jdbcType=VARCHAR}
+            </if>
+            <if test="startDate != null and startDate != '' ">
+                AND to_date(repoPldgInst.F_TRADE_DATE,'yyyy-mm-dd hh24:mi:ss') &gt;= to_date(#{startDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND to_date(repoPldgInst.F_TRADE_DATE,'yyyy-mm-dd hh24:mi:ss') &lt;= to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test="fExecutor != null and fExecutor !='' ">
+                AND  repoPldgInst.F_EXECUTOR = #{fExecutor,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询投资指令单 -->
+    <select id="queryFitsPledgeInst" parameterType="java.util.Map" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsPledgeInstResultDto">
+        <include refid="findBaseInst"/>
+        <where>
+            <if test="fPortfacctCash != null and fPortfacctCash != '' ">
+                AND repoPldgInst.F_PORTFACCT_CASH = #{fPortfacctCash,jdbcType=VARCHAR}
+            </if>
+            <if test="startDate != null and startDate != '' ">
+                AND to_date(repoPldgInst.F_TRADE_DATE,'yyyy-mm-dd') &gt;= to_date(#{startDate,jdbcType=VARCHAR},'yyyy-mm-dd')
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND to_date(repoPldgInst.F_TRADE_DATE,'yyyy-mm-dd') &lt;= to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd')
+            </if>
+        </where>
+    </select>
+
+    <!-- sql base -->
+    <sql id="findBaseInst">
+        SELECT
+            repoPldgInst.F_FORM_NUM as fFormNum,
+            repoPldgInst.APRVFORM_NUM as aprvFormNum,
+            repoPldgInst.F_TRDACCT as fTrdAcct,
+            repoPldgInst.F_PORTFACCT_SECU as fPortfAcctSecu,
+            repoPldgInst.F_PORTFACCT_CASH as fPortfAcctCash,
+            repoPldgInst.F_CUSTACCT_SECU as fCustAcctSecu,
+            repoPldgInst.F_CUSTACCT_CASH as fCustAcctCash,
+            repoPldgInst.F_REPO_CODE as fRepoCode,
+            repoPldgInst.F_INSTRUMENT as fInstrument,
+            repoPldgInst.F_EXECUTION as fExecution,
+            CASE
+            WHEN repoPldgInst.F_EXECUTION='NIB' THEN '银行间债券市场'
+            WHEN repoPldgInst.F_EXECUTION='SSE' THEN '上海证券交易所'
+            WHEN repoPldgInst.F_EXECUTION='SZSE' THEN '深圳证券交易所'
+            WHEN repoPldgInst.F_EXECUTION='OTC' THEN '场外交易市场'
+            WHEN repoPldgInst.F_EXECUTION='SGE' THEN '上海黄金交易所'
+            WHEN repoPldgInst.F_EXECUTION='SFE' THEN '上海期货交易所'
+            WHEN repoPldgInst.F_EXECUTION='ZCE' THEN '郑州商品交易所'
+            WHEN repoPldgInst.F_EXECUTION='DCE' THEN '大连商品交易所'
+            WHEN repoPldgInst.F_EXECUTION='CFFEX' THEN '中国金融期货交易所'
+            ELSE repoPldgInst.F_EXECUTION END as fExecutionName,
+            repoPldgInst.F_SETTLE_TYPE1ST as fSettleType1st,
+            repoPldgInst.F_SETTLE_TYPE2ND as fSettleType2nd,
+            repoPldgInst.F_COUNT as fCount,
+            repoPldgInst.F_REPO_RATE*100 as fRepoRate,
+            repoPldgInst.F_AMOUNT/10000 as fAmount,
+            repoPldgInst.F_MATURE_AMOUNT as fMatureAmount,
+            repoPldgInst.F_BEG_DATE as fBegDate,
+            repoPldgInst.F_END_DATE as fEndDate,
+
+            to_char(to_date(repoPldgInst.F_SUBMIT_DATE,'yyyymmddhh24miss'),'yyyy-mm-dd hh24:mi:ss') as fSubmitDate,
+            repoPldgInst.F_INITIATOR as fInitiator,
+            repoPldgInst.F_EXECUTOR as fExecutor,
+            repoPldgInst.F_TRADE_DIRECTION as fTradeDirection,
+            repoPldgInst.F_ACCOUNTING_TYPE as fAccountingType,
+            repoPldgInst.F_COUNTERPARTY_ID as fCounterpartyId,
+            repoPldgInst.F_CP_TRADER as fCpTrader,
+            repoPldgInst.F_CP_CASHACC as fCpCashAcc,
+            repoPldgInst.F_TRADE_DATE as fTradeDate,
+            repoPldgInst.F_SETTLE_DATE1ST as fSettleDate1st,
+            repoPldgInst.F_SETTLE_DATE2ND as fSettleDate2nd,
+            repoPldgInst.F_SETTLE_SPEED as fSettleSpeed,
+            repoPldgInst.F_QUOTE_TYPE as fQuoteType,
+            repoPldgInst.F_AMOUNT_BALANCE as fAmountBalance,
+            repoPldgInst.F_INST_STATUS as fInstStatus,
+            CASE
+            WHEN repoPldgInst.F_INST_STATUS='1' THEN '新建'
+            WHEN repoPldgInst.F_INST_STATUS='2' THEN '待审批'
+            WHEN repoPldgInst.F_INST_STATUS='3' THEN '审批中'
+            WHEN repoPldgInst.F_INST_STATUS='4' THEN '审批通过'
+            WHEN repoPldgInst.F_INST_STATUS='5' THEN '审批拒绝'
+            WHEN repoPldgInst.F_INST_STATUS='6' THEN '无需审批'
+            WHEN repoPldgInst.F_INST_STATUS='7' THEN '审批打回'
+            WHEN repoPldgInst.F_INST_STATUS='8' THEN '执行中'
+            WHEN repoPldgInst.F_INST_STATUS='9' THEN '已失效'
+            ELSE repoPldgInst.F_INST_STATUS END  as fInstStatusName,
+            repoPldgInst.F_REMARKS as fRemarks,
+            repoPldgInst.F_TRD_AI as fTrdAi,
+            repoPldgInst.F_TRD_FULL_PRICE as fTrdFullPrice,
+            repoPldgInst.F_TRD_PAR_VALUE/10000 as fTrdParValue,
+            repoPldgInst.F_TRD_NET_PRICE as fTrdNetPrice,
+            repoPldgInst.F_TRD_YTM as fTrdYtm,
+            repoPldgInst.F_TRD_TOTOL_AI as fTrdTotolAi,
+            repoPldgInst.F_TRD_SETTLE_AMOUNT as fTrdSettleAmount,
+            repoPldgInst.F_PLEDGE_RATIO*100 as fPledgeRatio,
+            repoPldgInst.F_PLEDGE_TERM as fPledgeTerm,
+            repoPldgInst.F_TRD_BONDPRICE_TYPE as fTrdBondPriceType,
+            repoPldgInst.AUDIT_CREATEDBY as auditCreatedBy,
+            repoPldgInst.AUDIT_CREATETIME as auditCreateTime,
+            repoPldgInst.AUDIT_MODIFIEDBY as auditModifiedBy,
+            repoPldgInst.AUDIT_MODIFIEDTIME as auditModifiedTime,
+            fInitiatorUser.U_FIRSTNAME||fInitiatorUser.U_LASTNAME AS fInitiatorName,
+            fExecutorUser.U_FIRSTNAME||fExecutorUser.U_LASTNAME   AS executorName,
+            tradeDic.DICT_DESCRIPTION as fTradeDirectionName,
+            portfolioCash.PC_NAME as fPortfAcctCashName,
+            bpmAprvform.F_PROCESS_NUM as fProcessNum,
+            bondmgt.BM_BOND_NAME as bmBondName,
+            enterprise.ENT_NAME as deCounterpartyName,
+            repoAttr.RA_REPO_NAME as raRepoName
+        FROM
+          V_FRT_FITS_REPOPLDG_INST repoPldgInst
+        LEFT JOIN
+          FRT_FITS_USER fInitiatorUser
+        ON
+          fInitiatorUser.U_ID = repoPldgInst.F_INITIATOR
+        LEFT JOIN
+          FRT_FITS_USER fExecutorUser
+        ON
+          fExecutorUser.U_ID = repoPldgInst.F_EXECUTOR
+        LEFT JOIN
+          FRT_FITS_ACC_PORTFOLIO_CASH portfolioCash
+        ON
+          portfolioCash.Pc_Acct_Num = repoPldgInst.F_PORTFACCT_CASH
+        LEFT JOIN
+          FRT_FITS_DICTIONARY tradeDic
+        ON
+          repoPldgInst.F_TRADE_DIRECTION = tradeDic.DICT_VALUE AND tradeDic.Dict_Key = 'RepoDirection'
+        LEFT JOIN
+          FRT_FITS_REPOATTR repoAttr
+        ON
+          (repoPldgInst.F_EXECUTION = repoAttr.RA_MARKET AND repoPldgInst.F_REPO_CODE = repoAttr.RA_REPO_CODE )
+        LEFT JOIN
+            FRT_FITS_ACC_ENTERPRISE enterprise
+        ON TO_CHAR(enterprise.ENT_ID) = repoPldgInst.F_COUNTERPARTY_ID
+        LEFT JOIN
+          FRT_FITS_BPM_APRVFORM bpmAprvform
+        ON repoPldgInst.APRVFORM_NUM=bpmAprvform.FORM_NUM
+        LEFT JOIN
+        FRT_FITS_REPOPLDG_BONDMGT bondmgt
+        ON repoPldgInst.F_INSTRUMENT=bondmgt.BM_BOND_CODE AND repoPldgInst.F_PORTFACCT_SECU=bondmgt.BM_PORTFOLIO_SECU and repoPldgInst.F_PORTFACCT_CASH=bondmgt.BM_PORTFOLIO_CASH
+    </sql>
+
+    <!-- 根据指令编号查询指令信息-->
+    <select id="qryInstByFormNum" parameterType="java.lang.String" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsPledgeInstResultDto">
+        <include refid="findBaseInst"/>
+        <where>
+            repoPldgInst.F_FORM_NUM = #{fFormNum,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <!-- 查询投资指令单 -->
+    <select id="qryInstByAprvFormNum" parameterType="java.lang.String" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsPledgeInstResultDto">
+        <include refid="findBaseInst"/>
+        <where>
+            repoPldgInst.APRVFORM_NUM = #{aprvFormNum,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <!-- 根据审批单号查询投资指令单 -->
+    <select id="clrQueryResultAprvFormNum" parameterType="java.lang.String">
+        select inst.APRVFORM_NUM
+        from  FRT_FITS_REPOPLDG_INST inst
+        LEFT join   FRT_FITS_REPOPLDG_ORD ord on  ord.ORD_NUM = inst.F_FORM_NUM
+        LEFT join   FRT_FITS_REPOPLDG_DEAL deal on  deal.DE_ORDER_NUM=ord.ORD_INVINST_NUM  where deal.DE_NUM is null AND inst.F_TRADE_DATE=#{currentDate,jdbcType=VARCHAR}
+    </select>
+</mapper>

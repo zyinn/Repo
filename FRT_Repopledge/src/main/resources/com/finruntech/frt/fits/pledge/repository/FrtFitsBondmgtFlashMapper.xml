@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FrtFitsBondmgtFlashMapper">
+
+    <!-- sql base -->
+    <sql id="columnName">
+        bondmgt.BM_BOND_LEND as  bmBondLend,
+        bondmgt.BM_DATE as  bmDate,
+        bondmgt.BM_BNDLND_SETLINGAMT as  bmBndlndSetlingamt,
+        bondmgt.BM_BNDFWD_SETLINGAMT as  bmBndfwdSetlingamt,
+        bondmgt.BM_BOND_CODE as  bmBondCode,
+        bondmgt.BM_BOND_NAME as  bmBondName,
+        bondmgt.BM_BOND_FORWARD as  bmBondForward,
+        bondmgt.BM_PORTFOLIO_CASH as  bmPortfolioCash,
+        bondmgt.BM_HOST_SECU as  bmHostSecu,
+        bondmgt.BM_PLDG_TRDINGAMT as  bmPldgTrdingamt,
+        bondmgt.BM_BOND_OUTRIGHT as  bmBondOutright,
+        bondmgt.BM_BNDFWD_TRDINGAMT as  bmBndfwdTrdingamt,
+        bondmgt.BM_HOST_CASH as  bmHostCash,
+        bondmgt.BM_OTRT_TRDINGAMT as  bmOtrtTrdingamt,
+        bondmgt.BM_BOND_PLEDGE as  bmBondPledge,
+        bondmgt.BM_BOND_BS as  bmBondBs,
+        bondmgt.BM_OTRT_SETLINGAMT as  bmOtrtSetlingamt,
+        bondmgt.BM_BND_TRDINGAMT as  bmBndTrdingamt,
+        bondmgt.BM_BND_SETLINGAMT as  bmBndSetlingamt,
+        bondmgt.BM_PORTFOLIO_SECU as  bmPortfolioSecu,
+        bondmgt.BM_BNDLND_TRDINGAMT as  bmBndlndTrdingamt,
+        bondmgt.BM_PLDG_SETLINGAMT as  bmPldgSetlingamt,
+        bondmgt.BM_BOND_AVAILABLE as  bmBondAvailable
+    </sql>
+
+    <!-- 查询可用债券信息 -->
+    <select id="queryFitsRepoPldgBondMgt" parameterType="FitsRepoPldgBondMgtDto"
+            resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtEntityDto">
+        SELECT
+        <include refid="columnName"></include>,
+        secu.PS_NAME as psName,
+        GET_BCODE_PRICE(bondmgt.BM_BOND_CODE,'PD') as bPriceDirty,
+        GET_BCODE_PRICE(bondmgt.BM_BOND_CODE,'B_YIELD') as bYield,
+        GET_BCODE_PARVALUE(bondmgt.BM_BOND_CODE) as bIssueParvalue
+        FROM FRT_FITS_BONDMGT_FLASH bondmgt
+        LEFT JOIN FRT_FITS_ACC_PORTFOLIO_SECU secu
+        ON bondmgt.BM_PORTFOLIO_SECU=secu.PS_ACCT_NUM AND bondmgt.BM_PORTFOLIO_CASH=secu.PS_CASH_NUM
+        WHERE bondmgt.BM_PORTFOLIO_SECU=#{bmPortfolioSecu,jdbcType=VARCHAR} AND
+        bondmgt.BM_PORTFOLIO_CASH=#{bmPortfolioCash,jdbcType=VARCHAR} AND bondmgt.BM_BOND_AVAILABLE <![CDATA[ > ]]> 0
+    </select>
+
+    <!-- 根据投资组合，资金账户当前日期查询可用债券信息（可用数量大于0） -->
+    <select id="findRepoPldgBondMgt" parameterType="FitsRepoPldgBondMgtDto"
+            resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtEntityDto">
+        SELECT
+        <include refid="columnName"></include>,
+        secu.PS_NAME as psName,
+        bondmgt.BM_DATE as archiveDate,
+        dict.DICT_DESCRIPTION as psAcctClassName
+        FROM V_FRT_FITS_BONDMGT_FLASH bondmgt
+        LEFT JOIN FRT_FITS_ACC_PORTFOLIO_SECU secu
+        ON bondmgt.BM_PORTFOLIO_SECU=secu.PS_ACCT_NUM AND bondmgt.BM_PORTFOLIO_CASH=secu.PS_CASH_NUM
+        LEFT JOIN FRT_FITS_DICTIONARY dict
+        ON dict.DICT_KEY = 'AccountingType' and dict.DICT_VALUE = secu.PS_ACCT_CLASS
+        <where>
+            bondmgt.BM_BOND_AVAILABLE <![CDATA[ > ]]> 0
+            <if test="bmPortfolioSecu != null and bmPortfolioSecu != ''">
+                AND bondmgt.BM_PORTFOLIO_SECU=#{bmPortfolioSecu,jdbcType=VARCHAR}
+            </if>
+            <if test="bmPortfolioCash != null and bmPortfolioCash != ''">
+                AND bondmgt.BM_PORTFOLIO_CASH=#{bmPortfolioCash,jdbcType=VARCHAR}
+            </if>
+            <if test="currentDate != null and currentDate != ''">
+                AND bondmgt.BM_DATE=#{currentDate,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询所有质押债券信息 -->
+    <select id="findRepoPldgAllBondMgt" parameterType="FitsRepoPldgBondMgtDto"
+            resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtEntityDto">
+        SELECT
+        <include refid="columnName"></include>,
+        secu.PS_NAME as psName,
+        bondmgt.BM_DATE as archiveDate,
+        GET_BCODE_PARVALUE(bondmgt.BM_BOND_CODE) as bIssueParvalue,
+        dict.DICT_DESCRIPTION as psAcctClassName
+        FROM V_FRT_FITS_BONDMGT_FLASH bondmgt
+        LEFT JOIN FRT_FITS_ACC_PORTFOLIO_SECU secu
+        ON bondmgt.BM_PORTFOLIO_SECU=secu.PS_ACCT_NUM AND bondmgt.BM_PORTFOLIO_CASH=secu.PS_CASH_NUM
+        LEFT JOIN FRT_FITS_DICTIONARY dict
+        ON dict.DICT_KEY = 'AccountingType' and dict.DICT_VALUE = secu.PS_ACCT_CLASS
+        <where>
+            <if test="currentDate != null and currentDate != ''">
+                bondmgt.BM_DATE=#{currentDate,jdbcType=VARCHAR}
+            </if>
+            <if test="bmPortfolioSecu != null and bmPortfolioSecu != ''">
+                AND bondmgt.BM_PORTFOLIO_SECU=#{bmPortfolioSecu,jdbcType=VARCHAR}
+            </if>
+            <if test="bmPortfolioCash != null and bmPortfolioCash != ''">
+                AND bondmgt.BM_PORTFOLIO_CASH=#{bmPortfolioCash,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 修改可用券债券信息 -->
+    <update id="updateRepoBondAvailable" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+            UPDATE FRT_FITS_BONDMGT_FLASH
+            SET
+            BM_BOND_PLEDGE=BM_BOND_PLEDGE+#{item.bmBondPledge,jdbcType=DECIMAL},
+            BM_BOND_AVAILABLE=BM_BOND_AVAILABLE-#{item.bmBondAvailAble,jdbcType=DECIMAL}
+            WHERE BM_BOND_CODE=#{item.bmBondCode,jdbcType=VARCHAR}
+            <if test="item.bmPortfolioSecu != null and item.bmPortfolioSecu != ''">
+                AND BM_PORTFOLIO_SECU=#{item.bmPortfolioSecu,jdbcType=VARCHAR}
+            </if>
+            <if test="item.bmPortfolioCash != null and item.bmPortfolioCash != ''">
+                AND BM_PORTFOLIO_CASH=#{item.bmPortfolioCash,jdbcType=VARCHAR}
+            </if>
+            <if test="item.bmHostSecu != null and item.bmHostSecu != ''">
+                AND BM_HOST_SECU=#{item.bmHostSecu,jdbcType=VARCHAR}
+            </if>
+            <if test="item.bmHostCash != null and item.bmHostCash != ''">
+                AND BM_HOST_CASH=#{item.bmHostCash,jdbcType=VARCHAR}
+            </if>
+        </foreach>
+    </update>
+
+    <!-- 修改可用券债券信息 -->
+    <update id="updateRepoBondAvailableGiveBack" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+            UPDATE FRT_FITS_BONDMGT_FLASH
+            SET
+            BM_BOND_PLEDGE=BM_BOND_PLEDGE-#{item.bmBondPledge,jdbcType=DECIMAL},
+            BM_BOND_AVAILABLE=BM_BOND_AVAILABLE+#{item.bmBondAvailAble,jdbcType=DECIMAL}
+            WHERE BM_BOND_CODE=#{item.bmBondCode,jdbcType=VARCHAR}
+            <if test="item.bmPortfolioSecu != null and item.bmPortfolioSecu != ''">
+                AND BM_PORTFOLIO_SECU=#{item.bmPortfolioSecu,jdbcType=VARCHAR}
+            </if>
+            <if test="item.bmPortfolioCash != null and item.bmPortfolioCash != ''">
+                AND BM_PORTFOLIO_CASH=#{item.bmPortfolioCash,jdbcType=VARCHAR}
+            </if>
+            <if test="item.bmHostSecu != null and item.bmHostSecu != ''">
+                AND BM_HOST_SECU=#{item.bmHostSecu,jdbcType=VARCHAR}
+            </if>
+            <if test="item.bmHostCash != null and item.bmHostCash != ''">
+                AND BM_HOST_CASH=#{item.bmHostCash,jdbcType=VARCHAR}
+            </if>
+        </foreach>
+    </update>
+
+    <!-- 验证可用债券信息 -->
+    <select id="checkRepoPldgBondMgt" parameterType="FitsRepoPldgBondMgtDto"
+            resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtEntityDto">
+        SELECT
+        <include refid="columnName"></include>
+        FROM FRT_FITS_BONDMGT_FLASH bondmgt
+        <where>
+            bondmgt.BM_BOND_CODE=#{bmBondCode,jdbcType=VARCHAR}
+            <if test="bmPortfolioSecu != null and bmPortfolioSecu != ''">
+                AND bondmgt.BM_PORTFOLIO_SECU=#{bmPortfolioSecu,jdbcType=VARCHAR}
+            </if>
+            <if test="bmPortfolioCash != null and bmPortfolioCash != ''">
+                AND bondmgt.BM_PORTFOLIO_CASH=#{bmPortfolioCash,jdbcType=VARCHAR}
+            </if>
+            <if test="bmHostSecu != null and bmHostSecu != ''">
+                AND bondmgt.BM_HOST_SECU=#{bmHostSecu,jdbcType=VARCHAR}
+            </if>
+            <if test="bmHostCash != null and bmHostCash != ''">
+                AND bondmgt.BM_HOST_CASH=#{bmHostCash,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2016 abel533@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsRepoPldgBondMgtMapper">
+    <!--<sql id="columnName">-->
+        <!--bondmgt.BM_DEAL_ID as bmDealId,-->
+        <!--bondmgt.BM_PORTFOLIO_SECU  as bmPortfolioSecu,-->
+        <!--bondmgt.BM_PORTFOLIO_CASH  as bmPortfolioCash,-->
+        <!--bondmgt.BM_HOST_SECU       as bmHostSecu,-->
+        <!--bondmgt.BM_HOST_CASH       as bmHostCash,-->
+        <!--bondmgt.BM_BOND_CODE       as bmBondCode,-->
+        <!--bondmgt.BM_BOND_NAME       as bmBondName,-->
+        <!--bondmgt.BM_BOND_BS         as bmBondBs,-->
+        <!--bondmgt.BM_BOND_OUTRIGHT   as bmBondOutRight,-->
+        <!--bondmgt.BM_BOND_LEND       as bmBondLend,-->
+        <!--bondmgt.BM_BOND_PLEDGE     as bmBondPledge,-->
+        <!--bondmgt.BM_BOND_AVAILABLE  as bmBondAvailAble-->
+    <!--</sql>-->
+
+    <!--<select id="queryFitsRepoPldgBondMgt" parameterType="FitsRepoPldgBondMgtDto"-->
+            <!--resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtEntityDto">-->
+        <!--SELECT-->
+            <!--<include refid="columnName"></include>,-->
+            <!--secu.PS_NAME as psName,-->
+            <!--GET_BCODE_PRICE(bondmgt.BM_BOND_CODE,'PD') as bPriceDirty,-->
+            <!--GET_BCODE_PRICE(bondmgt.BM_BOND_CODE,'B_YIELD') as bYield,-->
+            <!--GET_BCODE_PARVALUE(bondmgt.BM_BOND_CODE) as bIssueParvalue-->
+        <!--FROM FRT_FITS_REPOPLDG_BONDMGT bondmgt-->
+        <!--LEFT JOIN FRT_FITS_ACC_PORTFOLIO_SECU secu-->
+        <!--ON bondmgt.BM_PORTFOLIO_SECU=secu.PS_ACCT_NUM AND bondmgt.BM_PORTFOLIO_CASH=secu.PS_CASH_NUM-->
+        <!--WHERE bondmgt.BM_PORTFOLIO_SECU=#{bmPortfolioSecu,jdbcType=VARCHAR} AND-->
+        <!--bondmgt.BM_PORTFOLIO_CASH=#{bmPortfolioCash,jdbcType=VARCHAR} AND bondmgt.BM_BOND_AVAILABLE <![CDATA[ > ]]> 0-->
+    <!--</select>-->
+
+    <!--<select id="findRepoPldgBondMgt" parameterType="FitsRepoPldgBondMgtDto"-->
+            <!--resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtEntityDto">-->
+        <!--SELECT-->
+        <!--<include refid="columnName"></include>,-->
+        <!--secu.PS_NAME as psName,-->
+        <!--bondmgt.ARCHIVE_DATE as archiveDate-->
+        <!--FROM V_FRT_FITS_REPOPLDG_BONDMGT bondmgt-->
+        <!--LEFT JOIN FRT_FITS_ACC_PORTFOLIO_SECU secu-->
+        <!--ON bondmgt.BM_PORTFOLIO_SECU=secu.PS_ACCT_NUM AND bondmgt.BM_PORTFOLIO_CASH=secu.PS_CASH_NUM-->
+        <!--<where>-->
+            <!--bondmgt.BM_BOND_AVAILABLE <![CDATA[ > ]]> 0-->
+            <!--<if test="bmPortfolioSecu != null and bmPortfolioSecu != ''">-->
+                <!--AND bondmgt.BM_PORTFOLIO_SECU=#{bmPortfolioSecu,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="bmPortfolioCash != null and bmPortfolioCash != ''">-->
+                <!--AND bondmgt.BM_PORTFOLIO_CASH=#{bmPortfolioCash,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="currentDate != null and currentDate != ''">-->
+                <!--AND bondmgt.ARCHIVE_DATE=#{currentDate,jdbcType=VARCHAR}-->
+            <!--</if>-->
+        <!--</where>-->
+    <!--</select>-->
+
+    <!--<select id="findRepoPldgAllBondMgt" parameterType="FitsRepoPldgBondMgtDto"-->
+            <!--resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtEntityDto">-->
+        <!--SELECT-->
+        <!--<include refid="columnName"></include>,-->
+        <!--secu.PS_NAME as psName,-->
+        <!--bondmgt.ARCHIVE_DATE as archiveDate,-->
+        <!--GET_BCODE_PARVALUE(bondmgt.BM_BOND_CODE) as bIssueParvalue-->
+        <!--FROM V_FRT_FITS_REPOPLDG_BONDMGT bondmgt-->
+        <!--LEFT JOIN FRT_FITS_ACC_PORTFOLIO_SECU secu-->
+        <!--ON bondmgt.BM_PORTFOLIO_SECU=secu.PS_ACCT_NUM AND bondmgt.BM_PORTFOLIO_CASH=secu.PS_CASH_NUM-->
+        <!--<where>-->
+            <!--<if test="currentDate != null and currentDate != ''">-->
+                <!--bondmgt.ARCHIVE_DATE=#{currentDate,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="bmPortfolioSecu != null and bmPortfolioSecu != ''">-->
+                <!--AND bondmgt.BM_PORTFOLIO_SECU=#{bmPortfolioSecu,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="bmPortfolioCash != null and bmPortfolioCash != ''">-->
+                <!--AND bondmgt.BM_PORTFOLIO_CASH=#{bmPortfolioCash,jdbcType=VARCHAR}-->
+            <!--</if>-->
+        <!--</where>-->
+    <!--</select>-->
+
+    <!--<select id="checkRepoPldgBondMgt" parameterType="FitsRepoPldgBondMgtDto"-->
+            <!--resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtEntityDto">-->
+        <!--SELECT-->
+        <!--<include refid="columnName"></include>-->
+        <!--FROM FRT_FITS_REPOPLDG_BONDMGT bondmgt-->
+        <!--<where>-->
+            <!--bondmgt.BM_BOND_CODE=#{bmBondCode,jdbcType=VARCHAR}-->
+            <!--<if test="bmPortfolioSecu != null and bmPortfolioSecu != ''">-->
+                <!--AND bondmgt.BM_PORTFOLIO_SECU=#{bmPortfolioSecu,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="bmPortfolioCash != null and bmPortfolioCash != ''">-->
+                <!--AND bondmgt.BM_PORTFOLIO_CASH=#{bmPortfolioCash,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="bmHostSecu != null and bmHostSecu != ''">-->
+                <!--AND bondmgt.BM_HOST_SECU=#{bmHostSecu,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="bmHostCash != null and bmHostCash != ''">-->
+                <!--AND bondmgt.BM_HOST_CASH=#{bmHostCash,jdbcType=VARCHAR}-->
+            <!--</if>-->
+        <!--</where>-->
+    <!--</select>-->
+
+    <!--<update id="updateRepoBondAvailable" parameterType="java.util.List">-->
+        <!--<foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">-->
+            <!--UPDATE FRT_FITS_REPOPLDG_BONDMGT-->
+            <!--SET-->
+                <!--BM_BOND_PLEDGE=BM_BOND_PLEDGE+#{item.bmBondPledge,jdbcType=DECIMAL},-->
+                <!--BM_BOND_AVAILABLE=BM_BOND_AVAILABLE-#{item.bmBondAvailAble,jdbcType=DECIMAL}-->
+            <!--WHERE BM_BOND_CODE=#{item.bmBondCode,jdbcType=VARCHAR}-->
+            <!--<if test="item.bmPortfolioSecu != null and item.bmPortfolioSecu != ''">-->
+                <!--AND BM_PORTFOLIO_SECU=#{item.bmPortfolioSecu,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="item.bmPortfolioCash != null and item.bmPortfolioCash != ''">-->
+                <!--AND BM_PORTFOLIO_CASH=#{item.bmPortfolioCash,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="item.bmHostSecu != null and item.bmHostSecu != ''">-->
+                <!--AND BM_HOST_SECU=#{item.bmHostSecu,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="item.bmHostCash != null and item.bmHostCash != ''">-->
+                <!--AND BM_HOST_CASH=#{item.bmHostCash,jdbcType=VARCHAR}-->
+            <!--</if>-->
+        <!--</foreach>-->
+    <!--</update>-->
+
+    <!--<update id="updateRepoBondAvailableGiveBack" parameterType="java.util.List">-->
+        <!--<foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">-->
+            <!--UPDATE FRT_FITS_REPOPLDG_BONDMGT-->
+            <!--SET-->
+                <!--BM_BOND_PLEDGE=BM_BOND_PLEDGE-#{item.bmBondPledge,jdbcType=DECIMAL},-->
+                <!--BM_BOND_AVAILABLE=BM_BOND_AVAILABLE+#{item.bmBondAvailAble,jdbcType=DECIMAL}-->
+            <!--WHERE BM_BOND_CODE=#{item.bmBondCode,jdbcType=VARCHAR}-->
+            <!--<if test="item.bmPortfolioSecu != null and item.bmPortfolioSecu != ''">-->
+                <!--AND BM_PORTFOLIO_SECU=#{item.bmPortfolioSecu,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="item.bmPortfolioCash != null and item.bmPortfolioCash != ''">-->
+                <!--AND BM_PORTFOLIO_CASH=#{item.bmPortfolioCash,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="item.bmHostSecu != null and item.bmHostSecu != ''">-->
+                <!--AND BM_HOST_SECU=#{item.bmHostSecu,jdbcType=VARCHAR}-->
+            <!--</if>-->
+            <!--<if test="item.bmHostCash != null and item.bmHostCash != ''">-->
+                <!--AND BM_HOST_CASH=#{item.bmHostCash,jdbcType=VARCHAR}-->
+            <!--</if>-->
+        <!--</foreach>-->
+    <!--</update>-->
+
+</mapper>

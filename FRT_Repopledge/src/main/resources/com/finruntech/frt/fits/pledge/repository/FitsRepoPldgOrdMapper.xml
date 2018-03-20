@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsRepoPldgOrdMapper">
+
+    <!--
+            <resultMap id="repoPldgOrdResultMap" type="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgOrdDto">
+        <result property="ordId" column="ORD_ID"/>
+        <result property="ordNum" column="ORD_NUM"/>
+        <result property="ordInvinstNum" column="ORD_INVINST_NUM"/>
+        <result property="ordDate" column="ORD_DATE"/>
+        <result property="ordTime" column="ORD_TIME"/>
+        <result property="ordCount" column="ORD_COUNT"/>
+        <result property="ordPrice" column="ORD_PRICE"/>
+        <result property="ordDirtyPrice" column="ORD_DIRTYPRICE"/>
+        <result property="ordAmount" column="ORD_AMOUNT"/>
+        <result property="ordMatureAmount" column="ORD_MATURE_AMOUNT"/>
+        <result property="ordCustacctCash" column="ORD_CUSTACCT_CASH"/>
+        <result property="ordCustacctSecu" column="ORD_CUSTACCT_SECU"/>
+        <result property="ordPortacctSecu" column="ORD_PORTACCT_SECU"/>
+        <result property="ordPortacctCash" column="ORD_PORTACCT_CASH"/>
+        <result property="ordSetDate1st" column="ORD_SET_DATE1ST"/>
+        <result property="ordSetDate2nd" column="ORD_SET_DATE2ND"/>
+        <result property="ordSetType1st" column="ORD_SET_TYPE1ST"/>
+        <result property="ordSetType2nd" column="ORD_SET_TYPE2ND"/>
+        <result property="ordRepoRate" column="ORD_REPO_RATE"/>
+        <result property="ordPledgeRatio" column="ORD_PLEDGE_RATIO"/>
+        <result property="ordPledgeTerm" column="ORD_PLEDGE_TERM"/>
+        <result property="ordInitiator" column="ORD_INITIATOR"/>
+        <result property="ordExecutor" column="ORD_EXECUTOR"/>
+        <result property="ordTradeDirection" column="ORD_TRADE_DIRECTION"/>
+        <result property="ordAccountingType" column="ORD_ACCOUNTING_TYPE"/>
+        <result property="ordCounterpartyId" column="ORD_COUNTERPARTY_ID"/>
+        <result property="ordCpTrader" column="ORD_CP_TRADER"/>
+        <result property="ordCpCashacc" column="ORD_CP_CASHACC"/>
+        <result property="ordSettleSpeed" column="ORD_SETTLE_SPEED"/>
+        <result property="ordQuoteType" column="ORD_QUOTE_TYPE"/>
+        <result property="ordExecutionMarket" column="ORD_EXECUTION_MARKET"/>
+        <result property="ordRepoCode" column="ORD_REPO_CODE"/>
+        <result property="ordInstrument" column="ORD_INSTRUMENT"/>
+        <result property="ordInstrumentName" column="ORD_INSTRUMENT_NAME"/>
+        <result property="ordTotalAi" column="ORD_TOTAL_AI"/>
+        <result property="ordYtm" column="ORD_YTM"/>
+        <result property="ordSettleAmount" column="ORD_SETTLE_AMOUNT"/>
+        <result property="ordExerciseYield" column="ORD_EXERCISE_YIELD"/>
+        <result property="ordAmountBalance" column="ORD_AMOUNT_BALANCE"/>
+        <result property="ordStatus" column="ORD_STATUS"/>
+        <result property="auditCreatedby" column="AUDIT_CREATEDBY"/>
+        <result property="auditCreatetime" column="AUDIT_CREATETIME"/>
+        <result property="auditModifiedby" column="AUDIT_MODIFIEDBY"/>
+        <result property="auditModifiedtime" column="AUDIT_MODIFIEDTIME"/>
+
+        <result property="hsAccName" column="HS_ACC_NAME"/>
+        <result property="hsAccNumber" column="HS_ACC_NUMBER"/>
+        <result property="hsClearingHouse" column="HS_CLEARING_HOUSE"/>
+        <result property="hsClearingHouseDescription" column="HS_CLEARING_HOUSE_DESCRIPTION"/>
+        <result property="hcAccNumber" column="HC_ACC_NUMBER"/>
+        <result property="hcAccName" column="HC_ACC_NAME"/>
+        <result property="hcAccBankName" column="HC_ACC_BANK_NAME"/>
+        <result property="hcAccBankLarge" column="HC_ACC_BANK_LARGE"/>
+        <result property="ordInitiatorName" column="ORDINITIATOR_NAME"/>
+        <result property="cpEntName" column="CP_ENT_NAME"/>
+        <result property="pledgeRatioVal" column="PLEDGE_RATIO_VAL"/>
+        <result property="psAcctClass" column="PS_ACCT_CLASS"/>
+</resultMap>
+    -->
+
+
+    <insert id="insertRepoPldgOrd" parameterType="FitsRepoPldgOrdEntity">
+        INSERT
+        INTO
+            FRT_FITS_REPOPLDG_ORD
+            (
+                ORD_ID,
+                ORD_NUM,
+                ORD_INVINST_NUM,
+                ORD_DATE,
+                ORD_TIME,
+                ORD_COUNT,
+                ORD_PRICE,
+                ORD_DIRTYPRICE,
+                ORD_AMOUNT,
+                ORD_MATURE_AMOUNT,
+                ORD_CUSTACCT_CASH,
+                ORD_CUSTACCT_SECU,
+                ORD_PORTACCT_SECU,
+                ORD_PORTACCT_CASH,
+                ORD_SET_DATE1ST,
+                ORD_SET_DATE2ND,
+                ORD_SET_TYPE1ST,
+                ORD_SET_TYPE2ND,
+                ORD_REPO_RATE,
+                ORD_PLEDGE_RATIO,
+                ORD_PLEDGE_TERM,
+                ORD_INITIATOR,
+                ORD_EXECUTOR,
+                ORD_TRADE_DIRECTION,
+                ORD_ACCOUNTING_TYPE,
+                ORD_COUNTERPARTY_ID,
+                ORD_CP_TRADER,
+                ORD_CP_CASHACC,
+                ORD_SETTLE_SPEED,
+                ORD_QUOTE_TYPE,
+                ORD_EXECUTION_MARKET,
+                ORD_REPO_CODE,
+                ORD_INSTRUMENT,
+                ORD_INSTRUMENT_NAME,
+                ORD_TOTAL_AI,
+                ORD_YTM,
+                ORD_SETTLE_AMOUNT,
+                ORD_EXERCISE_YIELD,
+                ORD_AMOUNT_BALANCE,
+                ORD_STATUS,
+                AUDIT_CREATEDBY,
+                AUDIT_CREATETIME,
+                AUDIT_MODIFIEDBY,
+                AUDIT_MODIFIEDTIME
+            )
+            VALUES
+            (
+                #{ordId,jdbcType=DECIMAL},
+                #{ordNum,jdbcType=VARCHAR},
+                #{ordInvinstNum,jdbcType=VARCHAR},
+                #{ordDate,jdbcType=VARCHAR},
+                #{ordTime,jdbcType=VARCHAR},
+                #{ordCount,jdbcType=DECIMAL},
+                #{ordPrice,jdbcType=DECIMAL},
+                #{ordDirtyPrice,jdbcType=DECIMAL},
+                #{ordAmount,jdbcType=DECIMAL},
+                #{ordMatureAmount,jdbcType=DECIMAL},
+                #{ordCustacctCash,jdbcType=VARCHAR},
+                #{ordCustacctSecu,jdbcType=VARCHAR},
+                #{ordPortacctSecu,jdbcType=VARCHAR},
+                #{ordPortacctCash,jdbcType=VARCHAR},
+                #{ordSetDate1st,jdbcType=VARCHAR},
+                #{ordSetDate2nd,jdbcType=VARCHAR},
+                #{ordSetType1st,jdbcType=VARCHAR},
+                #{ordSetType2nd,jdbcType=VARCHAR},
+                #{ordRepoRate,jdbcType=DECIMAL},
+                #{ordPledgeRatio,jdbcType=DECIMAL},
+                #{ordPledgeTerm,jdbcType=DECIMAL},
+                #{ordInitiator,jdbcType=VARCHAR},
+                #{ordExecutor,jdbcType=VARCHAR},
+                #{ordTradeDirection,jdbcType=VARCHAR},
+                #{ordAccountingType,jdbcType=VARCHAR},
+                #{ordCounterpartyId,jdbcType=VARCHAR},
+                #{ordCpTrader,jdbcType=VARCHAR},
+                #{ordCpCashacc,jdbcType=VARCHAR},
+                #{ordSettleSpeed,jdbcType=VARCHAR},
+                #{ordQuoteType,jdbcType=VARCHAR},
+                #{ordExecutionMarket,jdbcType=VARCHAR},
+                #{ordRepoCode,jdbcType=VARCHAR},
+                #{ordInstrument,jdbcType=VARCHAR},
+                #{ordInstrumentName,jdbcType=VARCHAR},
+                #{ordTotalAi,jdbcType=DECIMAL},
+                #{ordYtm,jdbcType=DECIMAL},
+                #{ordSettleAmount,jdbcType=DECIMAL},
+                #{ordExerciseYield,jdbcType=DECIMAL},
+                #{ordAmountBalance,jdbcType=DECIMAL},
+                #{ordStatus,jdbcType=VARCHAR},
+                #{auditCreatedby,jdbcType=VARCHAR},
+                #{auditCreatetime,jdbcType=VARCHAR},
+                #{auditModifiedby,jdbcType=VARCHAR},
+                #{auditModifiedtime,jdbcType=VARCHAR}
+            )
+    </insert>
+
+
+    <sql id="selOrdJoin" >
+        SELECT
+            repoPldgOrd.ORD_ID as ordId,
+            repoPldgOrd.ORD_NUM as ordNum,
+            repoPldgOrd.ORD_INVINST_NUM as ordInvinstNum,
+            repoPldgOrd.ORD_DATE as ordDate,
+            repoPldgOrd.ORD_TIME as ordTime,
+            repoPldgOrd.ORD_COUNT as ordCount,
+            repoPldgOrd.ORD_PRICE as ordPrice,
+            repoPldgOrd.ORD_DIRTYPRICE as ordDirtyPrice,
+            repoPldgOrd.ORD_AMOUNT/10000 as ordAmount,
+            repoPldgOrd.ORD_MATURE_AMOUNT as ordMatureAmount,
+            repoPldgOrd.ORD_CUSTACCT_CASH as  ordCustacctCash,
+            repoPldgOrd.ORD_CUSTACCT_SECU as ordCustacctSecu,
+            repoPldgOrd.ORD_PORTACCT_SECU as ordPortacctSecu,
+            repoPldgOrd.ORD_PORTACCT_CASH as ordPortacctCash,
+            repoPldgOrd.ORD_SET_DATE1ST as ordSetDate1st,
+            repoPldgOrd.ORD_SET_DATE2ND as ordSetDate2nd,
+            repoPldgOrd.ORD_SET_TYPE1ST as ordSetType1st,
+            repoPldgOrd.ORD_SET_TYPE2ND as ordSetType2nd,
+            repoPldgOrd.ORD_REPO_RATE*100 as ordRepoRate,
+            repoPldgOrd.ORD_PLEDGE_RATIO*100 as ordPledgeRatio,
+            repoPldgOrd.ORD_PLEDGE_TERM as ordPledgeTerm,
+            repoPldgOrd.ORD_INITIATOR as ordInitiator,
+            repoPldgOrd.ORD_EXECUTOR as ordExecutor,
+            repoPldgOrd.ORD_TRADE_DIRECTION as ordTradeDirection,
+            repoPldgOrd.ORD_ACCOUNTING_TYPE as ordAccountingType,
+            repoPldgOrd.ORD_COUNTERPARTY_ID as ordCounterpartyId,
+            repoPldgOrd.ORD_CP_TRADER as ordCpTrader,
+            repoPldgOrd.ORD_CP_CASHACC as ordCpCashacc,
+            repoPldgOrd.ORD_SETTLE_SPEED as ordSettleSpeed,
+            repoPldgOrd.ORD_QUOTE_TYPE as ordQuoteType,
+            repoPldgOrd.ORD_EXECUTION_MARKET as ordExecutionMarket,
+            repoPldgOrd.ORD_REPO_CODE as ordRepoCode,
+            repoPldgOrd.ORD_INSTRUMENT as ordInstrument,
+            repoPldgOrd.ORD_INSTRUMENT_NAME as ordInstrumentName,
+            repoPldgOrd.ORD_TOTAL_AI as ordTotalAi,
+            repoPldgOrd.ORD_YTM as  ordYtm,
+            repoPldgOrd.ORD_SETTLE_AMOUNT as ordSettleAmount,
+            repoPldgOrd.ORD_EXERCISE_YIELD as  ordExerciseYield,
+            repoPldgOrd.ORD_AMOUNT_BALANCE as ordAmountBalance,
+            repoPldgOrd.ORD_STATUS as ordStatus,
+            repoPldgOrd.AUDIT_CREATEDBY as auditCreatedby,
+            repoPldgOrd.AUDIT_CREATETIME as auditCreatetime,
+            repoPldgOrd.AUDIT_MODIFIEDBY as auditModifiedby,
+            repoPldgOrd.AUDIT_MODIFIEDTIME as auditModifiedtime,
+            fitsUser.U_FIRSTNAME || fitsUser.U_LASTNAME AS ordInitiatorName,
+            cpEnterPrise.ENT_NAME as cpEntName,
+            enterPrise.ENT_NAME as entName,
+            accCusCash.HC_ACC_NUMBER                    AS  hcAccNumber,
+            accCusCash.HC_ACC_NAME                      AS  hcAccName,
+            accCusCash.HC_ACC_BANK_NAME                 AS  hcAccBankName,
+            accCusCash.HC_ACC_BANK_LARGE                AS  hcAccBankLarge,
+            accCusSecu.HS_ACC_NUMBER                    AS  hsAccNumber,
+            accCusSecu.HS_ACC_NAME                      AS  hsAccName,
+            accCusSecu.HS_CLEARING_HOUSE                AS  hsClearingHouse,
+            dict.DICT_DESCRIPTION                       AS  hsClearingHouseDescription,
+            repoAttr.RA_REPO_NAME as raRepoName,
+            bondmgt.BM_BOND_CODE as bmBondCode,
+            bondmgt.BM_BOND_NAME as bmBondName,
+            dict1.DICT_DESCRIPTION as setType1stName,
+            dict1.DICT_DESCRIPTION as setType2ndName,
+            fInitiatorUser.U_FIRSTNAME||fInitiatorUser.U_LASTNAME AS fInitiatorName,
+            repoPldgInst.F_TRADE_DATE as fTradeDate,
+            portfolioCash.PC_NAME as portacctCashName,
+            tradeDic.DICT_DESCRIPTION as ordTradeDirectionName
+        FROM
+            V_FRT_FITS_REPOPLDG_ORD repoPldgOrd
+        LEFT JOIN
+            FRT_FITS_ACC_CUSTODY_CASH accCusCash
+        ON  accCusCash.HC_ACC_NUMBER = repoPldgOrd.ORD_CUSTACCT_CASH
+        LEFT JOIN
+            FRT_FITS_ACC_CUSTODY_SECU accCusSecu
+        ON
+            repoPldgOrd.ORD_CUSTACCT_SECU = accCusSecu.HS_ACC_NUMBER
+        LEFT JOIN
+            FRT_FITS_ACC_ENTERPRISE enterPrise
+        ON
+            enterPrise.ENT_ID = accCusSecu.HS_ENT_ID
+        LEFT JOIN
+            FRT_FITS_USER fitsUser
+        ON
+            fitsUser.U_ID = repoPldgOrd.ORD_INITIATOR
+        LEFT JOIN
+            FRT_FITS_ACC_ENTERPRISE cpEnterPrise
+        ON
+            cpEnterPrise.ENT_ID = repoPldgOrd.ORD_COUNTERPARTY_ID
+        LEFT JOIN
+            FRT_FITS_DICTIONARY dict
+        ON
+            dict.DICT_KEY='TrustOrg' AND dict.DICT_VALUE = accCusSecu.HS_CLEARING_HOUSE
+        LEFT JOIN
+            FRT_FITS_DICTIONARY dict1
+        ON
+            dict1.DICT_KEY='SettlementMethod' AND dict1.DICT_VALUE = repoPldgOrd.ORD_SET_TYPE1ST
+        LEFT JOIN
+            FRT_FITS_DICTIONARY dict2
+        ON
+            dict2.DICT_KEY='SettlementMethod' AND dict2.DICT_VALUE = repoPldgOrd.ORD_SET_TYPE2ND
+        LEFT JOIN
+          FRT_FITS_REPOATTR repoAttr
+        ON
+          (repoPldgOrd.ORD_EXECUTION_MARKET = repoAttr.RA_MARKET AND repoPldgOrd.ORD_REPO_CODE = repoAttr.RA_REPO_CODE )
+        LEFT JOIN
+          V_FRT_FITS_REPOPLDG_INST repoPldgInst
+        ON
+          repoPldgInst.F_FORM_NUM = repoPldgOrd.ORD_INVINST_NUM
+        LEFT JOIN
+          FRT_FITS_USER fInitiatorUser
+        ON
+          fInitiatorUser.U_ID = repoPldgInst.F_INITIATOR
+        LEFT JOIN
+          FRT_FITS_DICTIONARY tradeDic
+        ON
+          repoPldgOrd.ORD_TRADE_DIRECTION = tradeDic.DICT_VALUE AND tradeDic.Dict_Key = 'RepoDirection'
+        LEFT JOIN
+          FRT_FITS_ACC_PORTFOLIO_CASH portfolioCash
+        ON
+          portfolioCash.Pc_Acct_Num = repoPldgOrd.ORD_PORTACCT_CASH
+        LEFT JOIN
+          FRT_FITS_REPOPLDG_BONDMGT bondmgt
+        ON
+        (repoPldgOrd.ORD_INSTRUMENT=bondmgt.BM_BOND_CODE
+             AND repoPldgOrd.ORD_PORTACCT_SECU=bondmgt.BM_PORTFOLIO_SECU
+              AND repoPldgOrd.ORD_PORTACCT_CASH=bondmgt.BM_PORTFOLIO_CASH)
+    </sql>
+
+    <select id="findRepoPldgOrd" parameterType="java.util.HashMap" resultType="FitsRepoPldgOrdDto">
+        <include refid="selOrdJoin"/>
+        <where>
+            1 = 1
+            <if test="ordInvinstNum != null and ordInvinstNum != ''">
+                AND repoPldgOrd.ORD_INVINST_NUM = #{ordInvinstNum, jdbcType=VARCHAR}
+            </if>
+            <if test="ordNum != null and ordNum != ''">
+                AND repoPldgOrd.ORD_NUM = #{ordNum, jdbcType=VARCHAR}
+            </if>
+            <if test="fPortfolioCash != null and fPortfolioCash != '' ">
+                AND repoPldgOrd.ORD_PORTACCT_CASH = #{fPortfolioCash,jdbcType=VARCHAR}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND to_date(repoPldgOrd.ORD_DATE,'yyyy-mm-dd hh24:mi:ss') &gt;= to_date(#{startDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND to_date(repoPldgOrd.ORD_DATE,'yyyy-mm-dd hh24:mi:ss') &lt;= to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+        </where>
+
+
+    </select>
+
+
+    <select id="findRepoPldgOrdByOrdNum" parameterType="java.lang.String" resultType="FitsRepoPldgOrdDto">
+        <include refid="selOrdJoin"/>
+        <where>
+             repoPldgOrd.ORD_NUM = #{ordNum, jdbcType=VARCHAR}
+        </where>
+    </select>
+
+
+    <!-- 修改指令状态, 修改时间 -->
+    <update id="updateInvstStatus" parameterType="FitsRepoPldgInstEntity">
+        UPDATE
+          FRT_FITS_REPOPLDG_INST
+        SET
+          AUDIT_MODIFIEDTIME=#{auditModifiedTime, jdbcType=VARCHAR}
+          ,AUDIT_MODIFIEDBY=#{auditModifiedBy, jdbcType=VARCHAR}
+        <if test="fInstStatus !=null and fInstStatus !=''">
+            ,F_INST_STATUS = #{fInstStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="fExecutor !=null and fExecutor !=''">
+            ,F_EXECUTOR=#{fExecutor, jdbcType=VARCHAR}
+        </if>
+        WHERE
+          F_FORM_NUM = #{fFormNum,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delRepoPldgOrdByOrdNum" parameterType="java.lang.String">
+      DELETE
+      FROM
+        FRT_FITS_REPOPLDG_ORD
+      WHERE
+        ORD_NUM = #{ordNum,jdbcType=VARCHAR}
+    </delete>
+
+    <!-- 交易录入，委托查询-->
+    <select id="tradeEntryQryOrder" parameterType="java.util.HashMap" resultType="FitsRepoPldgOrdDto">
+        SELECT
+            repoPldgOrd.ORD_NUM as ordNum,
+            repoPldgOrd.ORD_INVINST_NUM as ordInvinstNum,
+            repoPldgOrd.ORD_DATE as ordDate,
+            repoPldgOrd.ORD_TIME as ordTime,
+            repoPldgOrd.ORD_COUNT as ordCount,
+            repoPldgOrd.ORD_PRICE as ordPrice,
+            repoPldgOrd.ORD_DIRTYPRICE as ordDirtyPrice,
+            repoPldgOrd.ORD_AMOUNT as ordAmount,
+            repoPldgOrd.ORD_MATURE_AMOUNT as ordMatureAmount,
+            repoPldgOrd.ORD_CUSTACCT_CASH as  ordCustacctCash,
+            repoPldgOrd.ORD_CUSTACCT_SECU as ordCustacctSecu,
+            repoPldgOrd.ORD_PORTACCT_SECU as ordPortacctSecu,
+            repoPldgOrd.ORD_PORTACCT_CASH as ordPortacctCash,
+            repoPldgOrd.ORD_SET_DATE1ST as ordSetDate1st,
+            repoPldgOrd.ORD_SET_DATE2ND as ordSetDate2nd,
+            repoPldgOrd.ORD_SET_TYPE1ST as ordSetType1st,
+            repoPldgOrd.ORD_SET_TYPE2ND as ordSetType2nd,
+            repoPldgOrd.ORD_REPO_RATE as ordRepoRate,
+            repoPldgOrd.ORD_PLEDGE_RATIO as ordPledgeRatio,
+            repoPldgOrd.ORD_PLEDGE_TERM as ordPledgeTerm,
+            repoPldgOrd.ORD_INITIATOR as ordInitiator,
+            repoPldgOrd.ORD_EXECUTOR as ordExecutor,
+            repoPldgOrd.ORD_TRADE_DIRECTION as ordTradeDirection,
+            repoPldgOrd.ORD_ACCOUNTING_TYPE as ordAccountingType,
+            repoPldgOrd.ORD_COUNTERPARTY_ID as ordCounterpartyId,
+            repoPldgOrd.ORD_CP_TRADER as ordCpTrader,
+            repoPldgOrd.ORD_CP_CASHACC as ordCpCashacc,
+            repoPldgOrd.ORD_SETTLE_SPEED as ordSettleSpeed,
+            repoPldgOrd.ORD_QUOTE_TYPE as ordQuoteType,
+            repoPldgOrd.ORD_EXECUTION_MARKET as ordExecutionMarket,
+            repoPldgOrd.ORD_REPO_CODE as ordRepoCode,
+            repoPldgOrd.ORD_INSTRUMENT as ordInstrument,
+            repoPldgOrd.ORD_INSTRUMENT_NAME as ordInstrumentName,
+            repoPldgOrd.ORD_TOTAL_AI as ordTotalAi,
+            repoPldgOrd.ORD_YTM as  ordYtm,
+            repoPldgOrd.ORD_SETTLE_AMOUNT as ordSettleAmount,
+            repoPldgOrd.ORD_EXERCISE_YIELD as  ordExerciseYield,
+            repoPldgOrd.ORD_AMOUNT_BALANCE as ordAmountBalance,
+            repoPldgOrd.ORD_STATUS as ordStatus,
+            repoPldgOrd.AUDIT_CREATEDBY as auditCreatedby,
+            repoPldgOrd.AUDIT_CREATETIME as auditCreatetime,
+            repoPldgOrd.AUDIT_MODIFIEDBY as auditModifiedby,
+            repoPldgOrd.AUDIT_MODIFIEDTIME as auditModifiedtime,
+            portSecu.PS_ACCT_CLASS as  psAcctClass,
+          CASE
+          WHEN 'B'= repoPldgOrd.ORD_TRADE_DIRECTION
+            THEN repoPldgInst.F_PLEDGE_RATIO * repoPldgInst.F_TRD_PAR_VALUE
+          ELSE NULL
+          END AS "PLEDGE_RATIO_VAL",
+        pcash.pc_name as portacctCashName,
+        ffae.ent_name as cpEntName,
+        dict.dict_description as ordTradeDirectionName
+        FROM
+          FRT_FITS_REPOPLDG_ORD repoPldgOrd
+        LEFT JOIN
+          FRT_FITS_REPOPLDG_INST repoPldgInst
+        ON
+          repoPldgInst.F_FORM_NUM = repoPldgOrd.ORD_INVINST_NUM
+        LEFT JOIN
+          FRT_FITS_ACC_PORTFOLIO_SECU portSecu
+        ON
+          repoPldgOrd.ORD_PORTACCT_SECU = portSecu.PS_ACCT_NUM
+        left join frt_fits_acc_portfolio_cash pcash
+          on repoPldgOrd.ord_portacct_cash=pcash.pc_acct_num
+        left join FRT_FITS_ACC_ENTERPRISE ffae
+          on to_char(ffae.ENT_ID)=repoPldgOrd.ord_counterparty_id and ffae.ent_type='1'
+        left join frt_fits_dictionary dict
+          on dict.dict_key = 'RepoDirection' and dict.dict_value = repoPldgOrd.ord_trade_direction
+        <where>
+            repoPldgOrd.ORD_STATUS = #{ordStatus, jdbcType=VARCHAR}
+            AND to_date(repoPldgOrd.ORD_DATE,'yyyy-mm-dd hh24:mi:ss') &gt;= to_date(#{startDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+            AND to_date(repoPldgOrd.ORD_DATE,'yyyy-mm-dd hh24:mi:ss') &lt;= to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        </where>
+    </select>
+
+
+    <update id="updateRepoPldgOrd"  parameterType="FitsRepoPldgOrdEntity">
+        UPDATE
+          FRT_FITS_REPOPLDG_ORD
+        SET
+          AUDIT_MODIFIEDTIME=#{auditModifiedtime, jdbcType=VARCHAR}
+          <if test="ordStatus !=null and ordStatus !=''">
+              ,ORD_STATUS= #{ordStatus, jdbcType=VARCHAR}
+          </if>
+        WHERE
+          ORD_NUM = #{ordNum, jdbcType=VARCHAR}
+    </update>
+
+
+    <!-- 根据成交信息匹配委托单, 增加悲观锁并发控制-->
+    <select id="dealMatchOrder" parameterType="FitsRepoPldgOrdEntity" resultType="FitsRepoPldgOrdDto">
+        SELECT
+            repoPldgOrd.ORD_ID as ordId,
+            repoPldgOrd.ORD_NUM as ordNum,
+            repoPldgOrd.ORD_INVINST_NUM as ordInvinstNum,
+            repoPldgOrd.ORD_DATE as ordDate,
+            repoPldgOrd.ORD_TIME as ordTime,
+            repoPldgOrd.ORD_COUNT as ordCount,
+            repoPldgOrd.ORD_PRICE as ordPrice,
+            repoPldgOrd.ORD_DIRTYPRICE as ordDirtyPrice,
+            repoPldgOrd.ORD_AMOUNT as ordAmount,
+            repoPldgOrd.ORD_MATURE_AMOUNT as ordMatureAmount,
+            repoPldgOrd.ORD_CUSTACCT_CASH as  ordCustacctCash,
+            repoPldgOrd.ORD_CUSTACCT_SECU as ordCustacctSecu,
+            repoPldgOrd.ORD_PORTACCT_SECU as ordPortacctSecu,
+            repoPldgOrd.ORD_PORTACCT_CASH as ordPortacctCash,
+            repoPldgOrd.ORD_SET_DATE1ST as ordSetDate1st,
+            repoPldgOrd.ORD_SET_DATE2ND as ordSetDate2nd,
+            repoPldgOrd.ORD_SET_TYPE1ST as ordSetType1st,
+            repoPldgOrd.ORD_SET_TYPE2ND as ordSetType2nd,
+            repoPldgOrd.ORD_REPO_RATE as ordRepoRate,
+            repoPldgOrd.ORD_PLEDGE_RATIO as ordPledgeRatio,
+            repoPldgOrd.ORD_PLEDGE_TERM as ordPledgeTerm,
+            repoPldgOrd.ORD_INITIATOR as ordInitiator,
+            repoPldgOrd.ORD_EXECUTOR as ordExecutor,
+            repoPldgOrd.ORD_TRADE_DIRECTION as ordTradeDirection,
+            repoPldgOrd.ORD_ACCOUNTING_TYPE as ordAccountingType,
+            repoPldgOrd.ORD_COUNTERPARTY_ID as ordCounterpartyId,
+            repoPldgOrd.ORD_CP_TRADER as ordCpTrader,
+            repoPldgOrd.ORD_CP_CASHACC as ordCpCashacc,
+            repoPldgOrd.ORD_SETTLE_SPEED as ordSettleSpeed,
+            repoPldgOrd.ORD_QUOTE_TYPE as ordQuoteType,
+            repoPldgOrd.ORD_EXECUTION_MARKET as ordExecutionMarket,
+            repoPldgOrd.ORD_REPO_CODE as ordRepoCode,
+            repoPldgOrd.ORD_INSTRUMENT as ordInstrument,
+            repoPldgOrd.ORD_INSTRUMENT_NAME as ordInstrumentName,
+            repoPldgOrd.ORD_TOTAL_AI as ordTotalAi,
+            repoPldgOrd.ORD_YTM as  ordYtm,
+            repoPldgOrd.ORD_SETTLE_AMOUNT as ordSettleAmount,
+            repoPldgOrd.ORD_EXERCISE_YIELD as  ordExerciseYield,
+            repoPldgOrd.ORD_AMOUNT_BALANCE as ordAmountBalance,
+            repoPldgOrd.ORD_STATUS as ordStatus,
+            repoPldgOrd.AUDIT_CREATEDBY as auditCreatedby,
+            repoPldgOrd.AUDIT_CREATETIME as auditCreatetime,
+            repoPldgOrd.AUDIT_MODIFIEDBY as auditModifiedby,
+            repoPldgOrd.AUDIT_MODIFIEDTIME as auditModifiedtime
+        FROM
+          FRT_FITS_REPOPLDG_ORD repoPldgOrd
+        <where>
+            repoPldgOrd.ORD_STATUS = #{ordStatus, jdbcType=VARCHAR}
+            AND repoPldgOrd.ORD_CUSTACCT_SECU = #{ordCustacctSecu, jdbcType=VARCHAR}
+            AND repoPldgOrd.ORD_SET_DATE1ST= #{ordSetDate1st, jdbcType=VARCHAR}
+            AND repoPldgOrd.ORD_SET_DATE2ND = #{ordSetDate2nd, jdbcType=VARCHAR}
+            AND repoPldgOrd.ORD_SETTLE_AMOUNT = #{ordSettleAmount, jdbcType=DECIMAL}
+            AND repoPldgOrd.ORD_MATURE_AMOUNT = #{ordMatureAmount, jdbcType=DECIMAL}
+            AND repoPldgOrd.ORD_TRADE_DIRECTION = #{ordTradeDirection, jdbcType=VARCHAR}
+            AND repoPldgOrd.ORD_REPO_CODE = #{ordRepoCode, jdbcType=VARCHAR}
+            AND repoPldgOrd.ORD_COUNTERPARTY_ID = #{ordCounterpartyId, jdbcType=VARCHAR} FOR UPDATE
+        </where>
+    </select>
+
+    <select id="ordCountByInstNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+          count(1)
+        FROM
+          FRT_FITS_REPOPLDG_ORD repoPldgOrd
+        WHERE
+          repoPldgOrd.ORD_INVINST_NUM = #{ordInvinstNum, jdbcType=VARCHAR}
+    </select>
+
+    <select id="tradeEnterDetailQry" parameterType="java.lang.String" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgTransEntryDto">
+        select t.ord_num as deOrderNum,
+               pcash.pc_name as pcName,
+               accType.Dict_Description as accTypeName,
+               ffae.ent_name as entName,
+               t.ord_cp_trader as ordCpTrader,
+               t.ord_cp_cashacc as ordCpCashacc,
+               market.im_cname as fExecutionName,
+               inst.f_trade_date as fTradeDate,
+               repoattr.ra_repo_name as raRepoName,
+               dict.dict_description as tradeDirection,
+               t.ord_pledge_term as ordPledgeTerm,
+               t.ord_settle_speed as ordSettleSpeed,
+               t.ord_set_date1st as ordSetDate1st,
+               t.ord_set_date2nd as ordSetDate2nd,
+               t.ord_settle_amount as ordSettlAmount,
+               t.ord_amount/10000 as ordAmount,
+               t.ord_repo_rate*100 as ordRepoRate,
+               t.ord_mature_amount as ordMatureAmount,
+               settMethod.Dict_Description as fSettleType1st,
+               settMethod2nd.Dict_Description as fSettleType2nd,
+               bondmgt.BM_BOND_NAME as bmBondName,
+               t.ord_pledge_ratio as ordPledgeRatio,
+               t.ord_custacct_cash as deHostCash,
+               t.ord_custacct_secu as deHostSecu,
+               t.ord_portacct_secu as dePortfolioSecu,
+               t.ord_portacct_cash as dePortfolioCash,
+               t.ord_repo_code as deRepoCode,
+               t.ord_amount as  deRepoAmount,
+               t.ord_count  as  deRepoCount,
+               t.ORD_TOTAL_AI as ordTotalAi,
+               t.ORD_COUNTERPARTY_ID as ordCounterpartyId,
+               ffae.ent_code as  deCountparty,
+               t.ord_trade_direction  as   deTradeDirection,
+               t.ord_cp_trader  as  deCpTrader,
+               t.ord_cp_cashacc  as  deCpCashacc,
+               t.ord_execution_market  as  deExecutionMarket,
+               t.ord_instrument  as   dePledgedBond,
+               t.ord_instrument_name  as  dePledgedBondname,
+               t.ord_set_date1st  as  deSettledate1st,
+               t.ord_set_date2nd  as  deSettledate2nd
+            from frt_fits_repopldg_ord t
+            left join frt_fits_repopldg_inst inst
+            on t.ord_invinst_num=inst.f_form_num
+            left join frt_fits_acc_portfolio_cash pcash
+            on t.ord_portacct_cash=pcash.pc_acct_num
+            left join frt_fits_dictionary accType
+            on accType.Dict_Key='AccountingType' and accType.Dict_Value=t.ord_accounting_type
+            left join FRT_FITS_ACC_ENTERPRISE ffae
+            on to_char(ffae.ENT_ID)=t.ord_counterparty_id and ffae.ent_type='1'
+            left join frt_fits_issuemarket market
+            on market.im_code=t.ord_execution_market
+            left join frt_fits_dictionary dict
+            on dict.dict_key = 'RepoDirection'
+            and dict.dict_value = t.ord_trade_direction
+            left join frt_fits_repoattr repoattr
+            on t.ord_repo_code= repoattr.ra_repo_code
+            left join frt_fits_dictionary settMethod
+            on inst.f_settle_type1st=settMethod.Dict_Value and settMethod.Dict_Key='SettlementMethod'
+            left join frt_fits_dictionary settMethod2nd
+            on inst.f_settle_type2nd=settMethod2nd.Dict_Value and settMethod2nd.Dict_Key='SettlementMethod'
+            left join frt_fits_repopldg_bondmgt bondmgt
+            on inst.f_instrument=bondmgt.bm_bond_code
+            and inst.f_portfacct_secu=bondmgt.bm_portfolio_secu
+            and inst.f_portfacct_cash=bondmgt.bm_portfolio_cash
+            where t.ORD_NUM = #{ordNum, jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2016 abel533@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsRepoAttrMapper">
+    <resultMap id="PldgBondMgtResultMap" type="com.finruntech.frt.fits.pledge.model.FitsRepoAttrEntity">
+        <result property="raMarket" column="RA_MARKET" jdbcType="VARCHAR"/>
+        <result property="raRepoCode" column="RA_REPO_CODE" jdbcType="VARCHAR"/>
+        <result property="raRepoName" column="RA_REPO_NAME" jdbcType="VARCHAR"/>
+        <result property="raRepoType" column="RA_REPO_TYPE" jdbcType="VARCHAR"/>
+        <result property="raRepoTerm" column="RA_REPO_TERM" jdbcType="VARCHAR"/>
+        <result property="raRepoUnit" column="RA_REPO_UNIT" jdbcType="VARCHAR"/>
+        <result property="raRepoAmount" column="RA_REPO_AMOUNT" jdbcType="BIGINT"/>
+        <result property="raManualInput" column="RA_MANUALINPUT" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findFitsRepoAttrEntity" parameterType="com.finruntech.frt.fits.pledge.model.FitsRepoAttrEntity"
+            resultMap="PldgBondMgtResultMap">
+        SELECT * FROM FRT_FITS_REPOATTR
+        WHERE RA_MARKET=#{raMarket,jdbcType=VARCHAR}
+        <if test="raRepoType != null">
+            AND RA_REPO_TYPE=#{raRepoType,jdbcType=VARCHAR}
+        </if>
+        <if test="raRepoCode != null">
+            AND RA_REPO_CODE=#{raRepoCode,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="queryFitsRepoAttrEntity" parameterType="java.util.Map"
+            resultType="com.finruntech.frt.fits.pledge.model.FitsRepoAttrEntity">
+        SELECT
+        RA_MARKET as raMarket,
+        RA_REPO_CODE as raRepoCode,
+        RA_REPO_NAME as raRepoName,
+        RA_REPO_TYPE as raRepoType,
+        RA_REPO_TERM as raRepoTerm,
+        RA_REPO_UNIT as raRepoUnit,
+        RA_REPO_AMOUNT as raRepoAmount,
+        RA_MANUALINPUT as raManualInput
+        FROM FRT_FITS_REPOATTR
+        WHERE RA_MARKET=#{raMarket,jdbcType=VARCHAR}
+        <if test="raRepoType != null">
+            AND RA_REPO_TYPE=#{raRepoType,jdbcType=VARCHAR}
+        </if>
+        <if test="raRepoCode != null">
+            AND RA_REPO_CODE like #{raRepoCode,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <insert id="saveFitsRepoAttrEntity" parameterType="com.finruntech.frt.fits.pledge.model.FitsRepoAttrEntity">
+        INSERT INTO FRT_FITS_REPOATTR (RA_MARKET,
+                                        RA_REPO_CODE    ,
+                                        RA_REPO_NAME    ,
+                                        RA_REPO_TYPE    ,
+                                        RA_REPO_TERM    ,
+                                        RA_REPO_UNIT    ,
+                                        RA_REPO_AMOUNT  ,
+                                        RA_MANUALINPUT
+      )VALUES (
+                #{raMarket,jdbcType=VARCHAR},
+                #{raRepoCode,jdbcType=VARCHAR},
+                #{raRepoName,jdbcType=VARCHAR},
+                #{raRepoType,jdbcType=VARCHAR},
+                #{raRepoTerm,jdbcType=VARCHAR},
+                #{raRepoUnit,jdbcType=VARCHAR},
+                #{raRepoAmount,jdbcType=BIGINT},
+                #{raManualInput,jdbcType=VARCHAR}
+      )
+    </insert>
+
+    <update id="updateFitsRepoAttrEntity" parameterType="com.finruntech.frt.fits.pledge.model.FitsRepoAttrEntity">
+        UPDATE FRT_FITS_REPOATTR
+        SET  RA_REPO_NAME=#{raRepoName,jdbcType=VARCHAR},RA_REPO_TERM=#{raRepoTerm,jdbcType=VARCHAR}
+        WHERE RA_MARKET=#{raMarket,jdbcType=VARCHAR} AND RA_REPO_CODE=#{raRepoCode,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteFitsRepoAttrEntity" parameterType="com.finruntech.frt.fits.pledge.model.FitsRepoAttrEntity">
+        DELETE FROM FRT_FITS_REPOATTR  WHERE RA_MARKET=#{raMarket,jdbcType=VARCHAR} AND RA_REPO_CODE=#{raRepoCode,jdbcType=VARCHAR}
+    </delete>
+</mapper>

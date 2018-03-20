@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2016 abel533@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsRepoPldgDealMapper" >
+
+    <!-- 新增成交信息 -->
+    <insert id="insertRepoPldgDeal" parameterType="com.finruntech.frt.fits.pledge.model.FitsRepoPldgDealEntity">
+        INSERT
+        INTO
+            FRT_FITS_REPOPLDG_DEAL
+            (
+                DE_DEAL_ID,
+                DE_NUM,
+                DE_ORDER_NUM,
+                DE_EXEID_NUM,
+                DE_PORTFOLIO_SECU,
+                DE_PORTFOLIO_CASH,
+                DE_HOST_SECU,
+                DE_HOST_CASH,
+                DE_REPO_CODE,
+                DE_DEAL_DATE,
+                DE_DEAL_TIME,
+                DE_REPO_COUNT,
+                DE_REPO_AMOUNT,
+                DE_OPENEND_FLG,
+                DE_ACRINTST_FLG,
+                DE_REPOINST_FLG,
+                DE_COUNTPARTY,
+                DE_TRADE_DIRECTION,
+                DE_CP_TRADER,
+                DE_CP_CASHACC,
+                DE_EXECUTION_MARKET,
+                DE_PLEDGED_BOND,
+                DE_PLEDGED_BONDNAME,
+                DE_MANUAL,
+                DE_MANUAL_DATE,
+                DE_DEAL_CONFIRMATION,
+                DE_REPO_STARTYMD,
+                DE_REPO_ENDYMD,
+                DE_SETTLEDATE1ST,
+                DE_SETTLEDATE2ND,
+                DE_PLEDGED_INST,
+                DE_COLLATERAL_FEE,
+                DE_COLLATERAL_RATE,
+                DE_COLLATERAL_AMOUNT,
+                DE_TAX,
+                DE_TRANSFER_FEE1,
+                DE_SETTLE_FEE,
+                DE_TRADE_FEE,
+                DE_TRANSFER_FEE2,
+                DE_SECURITY_MANAGE_FEE,
+                DE_OTHER_FEE,
+                DE_MATCHORD_STATUS,
+                DE_CANCEL_FLG,
+                DE_BROKER_FLG,
+                AUDIT_CREATEDBY,
+                AUDIT_CREATETIME,
+                AUDIT_MODIFIEDBY,
+                AUDIT_MODIFIEDTIME
+            )
+            VALUES
+            (
+                #{deDealId,jdbcType=DECIMAL},
+                #{deNum,jdbcType=VARCHAR},
+                #{deOrderNum,jdbcType=VARCHAR},
+                #{deExeIdNum,jdbcType=VARCHAR},
+                #{dePortfolioSecu,jdbcType=VARCHAR},
+                #{dePortfolioCash,jdbcType=VARCHAR},
+                #{deHostSecu,jdbcType=VARCHAR},
+                #{deHostCash,jdbcType=VARCHAR},
+                #{deRepoCode,jdbcType=VARCHAR},
+                #{deDealDate,jdbcType=VARCHAR},
+                #{deDealTime,jdbcType=VARCHAR},
+                #{deRepoCount,jdbcType=DECIMAL},
+                #{deRepoAmount,jdbcType=DECIMAL},
+                #{deOpenEndFlg,jdbcType=VARCHAR},
+                #{deAcrIntstFlg,jdbcType=VARCHAR},
+                #{deRepoInstFlg,jdbcType=VARCHAR},
+                #{deCountParty,jdbcType=VARCHAR},
+                #{deTradeDirection,jdbcType=VARCHAR},
+                #{deCpTrader,jdbcType=VARCHAR},
+                #{deCpCashAcc,jdbcType=VARCHAR},
+                #{deExecutionMarket,jdbcType=VARCHAR},
+                #{dePledgedBond,jdbcType=VARCHAR},
+                #{dePledgedBondName,jdbcType=VARCHAR},
+                #{deManual,jdbcType=VARCHAR},
+                #{deManualDate,jdbcType=VARCHAR},
+                #{deDealConfirmation,jdbcType=VARCHAR},
+                #{deRepoStartYmd,jdbcType=VARCHAR},
+                #{deRepoEndYmd,jdbcType=VARCHAR},
+                #{deSettleDate1st,jdbcType=VARCHAR},
+                #{deSettleDate2nd,jdbcType=VARCHAR},
+                #{dePledgedInst,jdbcType=DECIMAL},
+                #{deCollateralFee,jdbcType=VARCHAR},
+                #{deCollateralRate,jdbcType=DECIMAL},
+                #{deCollateralAmount,jdbcType=DECIMAL},
+                #{deTax,jdbcType=DECIMAL},
+                #{deTransferFee1,jdbcType=DECIMAL},
+                #{deSettleFee,jdbcType=DECIMAL},
+                #{deTradeFee,jdbcType=DECIMAL},
+                #{deTransferFee2,jdbcType=DECIMAL},
+                #{deSecurityManageFee,jdbcType=DECIMAL},
+                #{deOtherFee,jdbcType=DECIMAL},
+                #{deMatchordStatus,jdbcType=VARCHAR},
+                #{deCancelFlg,jdbcType=VARCHAR},
+                #{deBrokerFlg,jdbcType=VARCHAR},
+                #{auditCreatedBy,jdbcType=VARCHAR},
+                #{auditCreateTime,jdbcType=VARCHAR},
+                #{auditModifiedBy,jdbcType=VARCHAR},
+                #{auditModifiedTime,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <!-- 查询成交信息 -->
+    <select id="findDealEntity" parameterType="java.util.Map" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgDealDto">
+        <include refid="queryDealBase"/>
+        <where>
+            <if test="dePortfolioCash != null and dePortfolioCash != '' ">
+                deal.DE_PORTFOLIO_CASH = #{dePortfolioCash,jdbcType=VARCHAR}
+            </if>
+            <if test="startDate != null and startDate != '' ">
+                AND to_date(deal.DE_DEAL_DATE,'yyyy-mm-dd  hh24:mi:ss') &gt;= to_date(#{startDate,jdbcType=VARCHAR},'yyyy-mm-dd  hh24:mi:ss')
+            </if>
+            <if test="endDate != null and endDate != '' ">
+                AND to_date(deal.DE_DEAL_DATE,'yyyy-mm-dd  hh24:mi:ss') &lt;= to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd  hh24:mi:ss')
+            </if>
+
+        </where>
+    </select>
+
+    <!-- deal base -->
+    <sql id="queryDealBase">
+        SELECT
+            deal.DE_DEAL_ID as deDealId,
+            deal.DE_NUM as deNum,
+            deal.DE_ORDER_NUM as deOrderNum,
+            deal.DE_EXEID_NUM deExeIdNum,
+            deal.DE_PORTFOLIO_SECU as dePortfolioSecu,
+            deal.DE_PORTFOLIO_CASH as dePortfolioCash,
+            deal.DE_HOST_SECU as deHostSecu,
+            deal.DE_HOST_CASH as deHostCash,
+            deal.DE_REPO_CODE as deRepoCode,
+            deal.DE_DEAL_DATE as deDealDate,
+            deal.DE_DEAL_TIME as deDealTime,
+            deal.DE_REPO_COUNT as deRepoCount,
+            deal.DE_REPO_AMOUNT as deRepoAmount,
+            deal.DE_OPENEND_FLG as deOpenEndFlg,
+            deal.DE_ACRINTST_FLG as deAcrIntstFlg,
+            deal.DE_REPOINST_FLG as deRepoInstFlg,
+            deal.DE_COUNTPARTY as deCountParty,
+            deal.DE_TRADE_DIRECTION as deTradeDirection,
+            deal.DE_CP_TRADER as deCpTrader ,
+            deal.DE_CP_CASHACC as deCpCashAcc,
+            deal.DE_EXECUTION_MARKET as deExecutionMarket,
+            deal.DE_PLEDGED_BOND as dePledgedBond,
+            deal.DE_PLEDGED_BONDNAME as dePledgedBondName,
+            deal.DE_MANUAL as deManual,
+            deal.DE_MANUAL_DATE as deManualDate,
+            deal.DE_DEAL_CONFIRMATION as deDealConfirmation,
+            deal.DE_REPO_STARTYMD as deRepoStartYmd,
+            deal.DE_REPO_ENDYMD as deRepoEndYmd,
+            deal.DE_SETTLEDATE1ST as deSettleDate1st,
+            deal.DE_SETTLEDATE2ND as deSettleDate2nd,
+            deal.DE_PLEDGED_INST as dePledgedInst,
+            deal.DE_COLLATERAL_FEE as deCollateralFee,
+            deal.DE_COLLATERAL_RATE as deCollateralRate,
+            deal.DE_COLLATERAL_AMOUNT as deCollateralAmount,
+            deal.DE_TAX as deTax,
+            deal.DE_TRANSFER_FEE1 as deTransferFee1,
+            deal.DE_SETTLE_FEE as deSettleFee,
+            deal.DE_TRADE_FEE as deTradeFee,
+            deal.DE_TRANSFER_FEE2 as deTransferFee2,
+            deal.DE_SECURITY_MANAGE_FEE as deSecurityManageFee,
+            deal.DE_OTHER_FEE as deOtherFee,
+            deal.DE_MATCHORD_STATUS as deMatchordStatus,
+            deal.DE_CANCEL_FLG as deCancelFlg,
+            deal.DE_BROKER_FLG as deBrokerFlg,
+            deal.AUDIT_CREATEDBY as auditCreatedBy,
+            deal.AUDIT_CREATETIME as auditCreateTime,
+            deal.AUDIT_MODIFIEDBY as auditModifiedBy,
+            deal.AUDIT_MODIFIEDTIME as auditModifiedTime,
+            portfolioCash.PC_NAME as psName,
+            fInitiator.U_FIRSTNAME||fInitiator.U_LASTNAME AS fInitiatorName,
+            repoAttr.RA_REPO_NAME as raRepoName,
+            repoInst.F_REPO_RATE*100 as deRepoRate,
+            repoInst.F_SETTLE_SPEED as fSettleSpeed,
+            repoInst.F_TRADE_DATE as fTradeDate,
+            repoOrder.ORD_MATURE_AMOUNT as deMatureAmount,
+            repoOrder.ORD_SETTLE_AMOUNT as deSettleAmount,
+            repoInst.F_PLEDGE_TERM as dePledgeTerm,
+            tradeDic.DICT_DESCRIPTION as deTradeDirectionName,
+            enterprise.ENT_NAME as deCounterpartyName,
+            repoInst.F_FORM_NUM as fFormNum,
+            matchStatus.DICT_DESCRIPTION as deMatchordStatusName,
+            assetClassDic.DICT_DESCRIPTION as psAcctClassName
+        FROM V_FITS_REPOPLDG_DEAL deal
+        LEFT JOIN
+          FRT_FITS_ACC_PORTFOLIO_CASH portfolioCash
+        ON portfolioCash.Pc_Acct_Num = deal.DE_PORTFOLIO_CASH
+        LEFT JOIN
+          FRT_FITS_ACC_PORTFOLIO_SECU portfolioSecu
+        ON portfolioSecu.PS_ACCT_NUM = deal.DE_PORTFOLIO_SECU
+        LEFT JOIN
+          FRT_FITS_DICTIONARY assetClassDic
+        ON
+          portfolioSecu.PS_ACCT_CLASS = assetClassDic.DICT_VALUE AND assetClassDic.Dict_Key = 'AccountingType'
+        LEFT JOIN
+          V_FRT_FITS_REPOPLDG_ORD repoOrder
+        ON repoOrder.ORD_NUM = deal.DE_ORDER_NUM
+        LEFT JOIN
+          V_FRT_FITS_REPOPLDG_INST repoInst
+        ON repoOrder.ORD_INVINST_NUM = repoInst.F_FORM_NUM
+        LEFT JOIN
+         FRT_FITS_USER fInitiator
+        ON fInitiator.U_ID = repoInst.F_INITIATOR
+        LEFT JOIN
+          FRT_FITS_REPOATTR repoAttr
+        ON deal.DE_REPO_CODE=repoAttr.RA_REPO_CODE
+        LEFT JOIN
+          FRT_FITS_DICTIONARY tradeDic
+        ON
+          deal.DE_TRADE_DIRECTION = tradeDic.DICT_VALUE AND tradeDic.Dict_Key = 'RepoDirection'
+        LEFT JOIN
+          FRT_FITS_DICTIONARY matchStatus
+        ON
+          deal.DE_MATCHORD_STATUS = matchStatus.DICT_VALUE AND matchStatus.Dict_Key = 'OrdMatchStatus'
+        LEFT JOIN
+            FRT_FITS_ACC_ENTERPRISE enterprise
+        ON  enterprise.ENT_CODE= deal.DE_COUNTPARTY
+    </sql>
+
+    <!-- 修改成交信息 -->
+    <update id="updateRepoPldgDeal" parameterType="com.finruntech.frt.fits.pledge.model.FitsRepoPldgDealEntity">
+        UPDATE
+          FRT_FITS_REPOPLDG_DEAL
+        SET
+          AUDIT_MODIFIEDTIME =  #{auditModifiedTime,jdbcType=VARCHAR}
+          <if test="deMatchordStatus !=null and deMatchordStatus !=''">
+            ,DE_MATCHORD_STATUS = #{deMatchordStatus, jdbcType=VARCHAR}
+          </if>
+          <if test="deDealConfirmation !=null and deDealConfirmation !=''">
+            ,DE_DEAL_CONFIRMATION = #{deDealConfirmation, jdbcType=VARCHAR}
+          </if>
+          <if test="deOrderNum !=null and deOrderNum !=''">
+            ,DE_ORDER_NUM=#{deOrderNum, jdbcType=VARCHAR}
+          </if>
+        WHERE
+          DE_NUM = #{deNum, jdbcType=VARCHAR} AND  DE_REPO_CODE =#{deRepoCode, jdbcType=VARCHAR}
+    </update>
+
+</mapper>

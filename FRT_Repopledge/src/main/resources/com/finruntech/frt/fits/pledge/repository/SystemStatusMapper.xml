@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.SystemStatusMapper">
+
+    <!-- 查询当前日期信息_用于跑批 -->
+    <select id="selectSystemStatus" parameterType="String" resultType="com.finruntech.frt.fits.pledge.model.FrtFitsSystemStatusEntity">
+        SELECT MARKET_TYPE AS marketType,
+                LAST_BIZDATE AS lastBizdate,
+                CURR_BIZDATE AS currBizdate,
+                NEXT_BIZDATE AS nextBizdate,
+                EOD_BATCH_STATUS AS eodBatchStatus,
+                MOR_BATCH_STATUS AS morBatchStatus
+         from FRT_FITS_SYSTEMSTATUS
+         where MARKET_TYPE = #{marketType,jdbcType = VARCHAR}
+    </select>
+
+
+    <!-- 查询当前日期信息_用于跑批 -->
+    <select id="selectSystemConfig" parameterType="String" resultType="com.finruntech.frt.fits.pledge.model.FitsSystemConfigEntity">
+       SELECT
+        CONFIG_KEY as configKey,
+        CONFIG_VALUE as configValue,
+        CONFIG_DESCRIPTION as configDescription,
+        CONFIG_USAGE as configUsage,
+        CONFIG_REMARK as configRemark
+     FROM
+        FRT_FITS_SYSTEMCONFIG
+     WHERE
+        CONFIG_KEY =  #{configKey,jdbcType = VARCHAR}
+    </select>
+
+</mapper>

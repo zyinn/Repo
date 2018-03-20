@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2016 abel533@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsAccPortfolioSecuMapper" >
+    <resultMap id="FitsAccPortfolioSecuResultMap" type="com.finruntech.frt.fits.pledge.model.FitsAccPortfolioSecuEntity">
+        <result property="psId" column="PS_ID" jdbcType="BIGINT"/>
+        <result property="psEntId" column="PS_ENT_ID" jdbcType="BIGINT"/>
+        <result property="psName" column="PS_NAME" jdbcType="VARCHAR"/>
+        <result property="psAcctClass" column="PS_ACCT_CLASS" jdbcType="VARCHAR"/>
+        <result property="psAcctNum" column="PS_ACCT_NUM" jdbcType="VARCHAR"/>
+        <result property="psCashNum" column="PS_CASH_NUM" jdbcType="VARCHAR"/>
+        <result property="psResourceNum" column="PS_RESOURCE_NUM" jdbcType="VARCHAR"/>
+        <result property="psDept" column="PS_DEPT" jdbcType="VARCHAR"/>
+        <result property="psBizStream" column="PS_BIZ_STREAM" jdbcType="VARCHAR"/>
+        <result property="psAssetClass" column="PS_ASSET_CLASS" jdbcType="VARCHAR"/>
+        <result property="psFinanceClass" column="PS_FINANCE_CLASS" jdbcType="VARCHAR"/>
+        <result property="psStatus" column="PS_STATUS" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 根据PS_ACCT_CLASS /PS_CASH_NUM 查询投资组合信息 -->
+    <select id="findAccPSecuEnityByAcctClassAndCashNum" resultMap="FitsAccPortfolioSecuResultMap" parameterType="java.util.Map" >
+        SELECT * FROM FRT_FITS_ACC_PORTFOLIO_SECU WHERE PS_ACCT_CLASS= #{psAcctClass,jdbcType=VARCHAR} AND PS_CASH_NUM= #{psCashNum,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据 PS_ACCT_NUM、PS_CASH_NUM查询投资组合信息 -->
+    <select id="findAccPSecuEnityByCashNumAndSecuNum" resultType="com.finruntech.frt.fits.pledge.model.FitsAccPortfolioSecuEntity" parameterType="java.util.Map" >
+        SELECT * FROM FRT_FITS_ACC_PORTFOLIO_SECU WHERE PS_ACCT_NUM= #{psAcctNum,jdbcType=VARCHAR} AND PS_CASH_NUM= #{psCashNum,jdbcType=VARCHAR}
+    </select>
+</mapper>

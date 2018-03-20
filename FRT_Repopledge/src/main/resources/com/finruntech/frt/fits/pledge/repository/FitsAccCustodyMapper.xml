@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsAccCustodyMapper" >
+
+    <resultMap id="accCustodyCashMap" type="com.finruntech.frt.fits.pledge.model.FitsAccCustodyCashEntity">
+        <result property="hcId" column="HC_ID" jdbcType="BIGINT"/>
+        <result property="hcAccNumber" column="HC_ACC_NUMBER" jdbcType="VARCHAR"/>
+        <result property="hcAccName" column="HC_ACC_NAME" jdbcType="VARCHAR"/>
+        <result property="hcAccBankName" column="HC_ACC_BANK_NAME" jdbcType="VARCHAR"/>
+        <result property="hcAccBankLarge" column="HC_ACC_BANK_LARGE" jdbcType="VARCHAR"/>
+        <result property="hcEntId" column="HC_ENT_ID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <resultMap id="accCustodySecuMap" type="com.finruntech.frt.fits.pledge.model.dto.FitsAccCustodySecuDto">
+        <result property="hsId" column="HS_ID" jdbcType="BIGINT"/>
+        <result property="hsEntId" column="HS_ENT_ID" jdbcType="VARCHAR"/>
+        <result property="hsAccNumber" column="HS_ACC_NUMBER" jdbcType="VARCHAR"/>
+        <result property="hsAccName" column="HS_ACC_NAME" jdbcType="VARCHAR"/>
+        <result property="hsClearingHouse" column="HS_CLEARING_HOUSE" jdbcType="VARCHAR"/>
+        <!-- <result property="hsClearingHouseDescription" column="hsClearingHouseDescription" jdbcType="VARCHAR"/>-->
+    </resultMap>
+
+
+    <!-- 根据投资组合关联托管资金账号-->
+    <select id="findAccCusCashByPortCash"  parameterType="java.lang.String" resultMap="accCustodyCashMap">
+        SELECT DISTINCT
+            accCash.HC_ID,
+            accCash.HC_ACC_NUMBER,
+            accCash.HC_ACC_NAME,
+            accCash.HC_ACC_BANK_NAME,
+            accCash.HC_ACC_BANK_LARGE,
+            accCash.HC_ENT_ID
+        FROM
+            FRT_FITS_ACCT_TRDORG acctTrdOrd
+        INNER JOIN
+            FRT_FITS_ACC_CUSTODY_CASH accCash
+        ON
+            TO_CHAR(accCash.HC_ID)= acctTrdOrd.TRDACCT_ACCT_HOSTCASH
+        WHERE
+            TRDACCT_ACCT_PORTCASH = #{fPortfacctCash, jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据投资组合关联托管证券账号-->
+    <select id="findAccCusSecByPortCash"  parameterType="java.lang.String" resultMap="accCustodySecuMap">
+         SELECT DISTINCT
+            accSecu.HS_ID,
+            accSecu.HS_ENT_ID,
+            accSecu.HS_ACC_NUMBER,
+            accSecu.HS_ACC_NAME,
+            accSecu.HS_CLEARING_HOUSE
+        FROM
+            FRT_FITS_ACCT_TRDORG acctTrdOrd
+        INNER JOIN
+            FRT_FITS_ACC_CUSTODY_SECU accSecu
+        ON
+            TO_CHAR(accSecu.HS_ID)= acctTrdOrd.TRDACCT_ACCT_HOSTSECU
+        WHERE
+            TRDACCT_ACCT_PORTCASH = #{fPortfacctCash, jdbcType=VARCHAR}
+    </select>
+</mapper>

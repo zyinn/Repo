@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FrtFitsFundFlashMapper">
+
+    <!-- 新增资金快照信息 -->
+    <insert id="frtFitsFundFlashSave" parameterType="com.finruntech.frt.fits.pledge.model.FrtFitsFundFlashEntity">
+        INSERT INTO FRT_FITS_FUND_FLASH (
+                    FF_DATE,
+                    FF_CUSTODY_SECU,
+                    FF_AVAILABLE_AMOUNT,
+                    FF_FREEZE_AMOUNT,
+                    FF_INIT_AMOUNT,
+                    FF_PORTFOLIO_SECU,
+                    FF_FREEZE_TRDINGAMT,
+                    FF_PORTFOLIO_CASH,
+                    FF_AMOUNT,
+                    FF_CUSTODY_CASH,
+                    FF_CURRENCY
+        )VALUES (
+                    #{ffDate,jdbcType=VARCHAR},
+                    #{ffCustodySecu,jdbcType=VARCHAR},
+                    #{ffAvailableAmount,jdbcType=VARCHAR},
+                    #{ffFreezeAmount,jdbcType=VARCHAR},
+                    #{ffInitAmount,jdbcType=VARCHAR},
+                    #{ffPortfolioSecu,jdbcType=VARCHAR},
+                    #{ffFreezeTrdingamt,jdbcType=VARCHAR},
+                    #{ffPortfolioCash,jdbcType=VARCHAR},
+                    #{ffAmount,jdbcType=VARCHAR},
+                    #{ffCustodyCash,jdbcType=VARCHAR},
+                    #{ffCurrency,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!-- 修改资金快照信息 -->
+    <update id="frtFitsFundFlashModify" parameterType="com.finruntech.frt.fits.pledge.model.FrtFitsFundFlashEntity">
+        UPDATE FRT_FITS_FUND_FLASH
+        SET
+                <if test="ffDate != null and ffDate !=''">
+                    FF_DATE= #{ffDate,jdbcType=VARCHAR},
+                </if>
+                <if test="ffCustodySecu != null and ffCustodySecu !=''">
+                    FF_CUSTODY_SECU= #{ffCustodySecu,jdbcType=VARCHAR},
+                </if>
+                <if test="ffAvailableAmount != null and ffAvailableAmount !=''">
+                    FF_AVAILABLE_AMOUNT= #{ffAvailableAmount,jdbcType=VARCHAR},
+                </if>
+                <if test="ffFreezeAmount != null and ffFreezeAmount !=''">
+                    FF_FREEZE_AMOUNT= #{ffFreezeAmount,jdbcType=VARCHAR},
+                </if>
+                <if test="ffInitAmount != null and ffInitAmount !=''">
+                    FF_INIT_AMOUNT= #{ffInitAmount,jdbcType=VARCHAR},
+                </if>
+                <if test="ffPortfolioSecu != null and ffPortfolioSecu !=''">
+                    FF_PORTFOLIO_SECU= #{ffPortfolioSecu,jdbcType=VARCHAR},
+                </if>
+                <if test="ffFreezeTrdingamt != null and ffFreezeTrdingamt !=''">
+                    FF_FREEZE_TRDINGAMT= #{ffFreezeTrdingamt,jdbcType=VARCHAR},
+                </if>
+                <if test="ffPortfolioCash != null and ffPortfolioCash !=''">
+                    FF_PORTFOLIO_CASH= #{ffPortfolioCash,jdbcType=VARCHAR},
+                </if>
+                <if test="ffAmount != null and ffAmount !=''">
+                    FF_AMOUNT= #{ffAmount,jdbcType=VARCHAR},
+                </if>
+                <if test="ffCustodyCash != null and ffCustodyCash !=''">
+                    FF_CUSTODY_CASH= #{ffCustodyCash,jdbcType=VARCHAR},
+                </if>
+                <if test="ffCurrency != null and ffCurrency !=''">
+                    FF_CURRENCY= #{ffCurrency,jdbcType=VARCHAR}
+                </if>
+    </update>
+
+    <!-- 删除资金快照信息 -->
+    <delete id="frtFitsFundFlashDel" parameterType="com.finruntech.frt.fits.pledge.model.FrtFitsFundFlashEntity">
+        DELETE FROM FRT_FITS_FUND_FLASH WHERE
+                    <if test="ffDate != null and ffDate !=''">
+                    FF_DATE= #{ffDate,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffCustodySecu != null and ffCustodySecu !=''">
+                    FF_CUSTODY_SECU= #{ffCustodySecu,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffAvailableAmount != null and ffAvailableAmount !=''">
+                    FF_AVAILABLE_AMOUNT= #{ffAvailableAmount,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffFreezeAmount != null and ffFreezeAmount !=''">
+                    FF_FREEZE_AMOUNT= #{ffFreezeAmount,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffInitAmount != null and ffInitAmount !=''">
+                    FF_INIT_AMOUNT= #{ffInitAmount,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffPortfolioSecu != null and ffPortfolioSecu !=''">
+                    FF_PORTFOLIO_SECU= #{ffPortfolioSecu,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffFreezeTrdingamt != null and ffFreezeTrdingamt !=''">
+                    FF_FREEZE_TRDINGAMT= #{ffFreezeTrdingamt,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffPortfolioCash != null and ffPortfolioCash !=''">
+                    FF_PORTFOLIO_CASH= #{ffPortfolioCash,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffAmount != null and ffAmount !=''">
+                    FF_AMOUNT= #{ffAmount,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffCustodyCash != null and ffCustodyCash !=''">
+                    FF_CUSTODY_CASH= #{ffCustodyCash,jdbcType=VARCHAR} and
+                    </if>
+                    <if test="ffCurrency != null and ffCurrency !=''">
+                        FF_CURRENCY= #{ffCurrency,jdbcType=VARCHAR}
+                    </if>
+    </delete>
+
+    <!-- 查询资金快照信息 -->
+    <select id="findfrtFitsFundFlashPageList" parameterType="com.finruntech.frt.fits.pledge.model.FrtFitsFundFlashEntity"
+            resultType="com.finruntech.frt.fits.pledge.model.FrtFitsFundFlashEntity">
+        SELECT
+                    FF_DATE as  ffDate,
+                    FF_CUSTODY_SECU as  ffCustodySecu,
+                    FF_AVAILABLE_AMOUNT as  ffAvailableAmount,
+                    FF_FREEZE_AMOUNT as  ffFreezeAmount,
+                    FF_INIT_AMOUNT as  ffInitAmount,
+                    FF_PORTFOLIO_SECU as  ffPortfolioSecu,
+                    FF_FREEZE_TRDINGAMT as  ffFreezeTrdingamt,
+                    FF_PORTFOLIO_CASH as  ffPortfolioCash,
+                    FF_AMOUNT as  ffAmount,
+                    FF_CUSTODY_CASH as  ffCustodyCash,
+                    FF_CURRENCY as  ffCurrency
+        FROM FRT_FITS_FUND_FLASH
+        where
+                <if test="ffDate != null and ffDate !=''">
+                   FF_DATE= #{ffDate,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffCustodySecu != null and ffCustodySecu !=''">
+                   FF_CUSTODY_SECU= #{ffCustodySecu,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffAvailableAmount != null and ffAvailableAmount !=''">
+                   FF_AVAILABLE_AMOUNT= #{ffAvailableAmount,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffFreezeAmount != null and ffFreezeAmount !=''">
+                   FF_FREEZE_AMOUNT= #{ffFreezeAmount,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffInitAmount != null and ffInitAmount !=''">
+                   FF_INIT_AMOUNT= #{ffInitAmount,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffPortfolioSecu != null and ffPortfolioSecu !=''">
+                   FF_PORTFOLIO_SECU= #{ffPortfolioSecu,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffFreezeTrdingamt != null and ffFreezeTrdingamt !=''">
+                   FF_FREEZE_TRDINGAMT= #{ffFreezeTrdingamt,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffPortfolioCash != null and ffPortfolioCash !=''">
+                   FF_PORTFOLIO_CASH= #{ffPortfolioCash,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffAmount != null and ffAmount !=''">
+                   FF_AMOUNT= #{ffAmount,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffCustodyCash != null and ffCustodyCash !=''">
+                   FF_CUSTODY_CASH= #{ffCustodyCash,jdbcType=VARCHAR} and
+                </if>
+                <if test="ffCurrency != null and ffCurrency !=''">
+                FF_CURRENCY= #{ffCurrency,jdbcType=VARCHAR}
+                </if>
+    </select>
+
+</mapper>

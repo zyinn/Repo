@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ The MIT License (MIT)
+  ~
+  ~ Copyright (c) 2014-2016 abel533@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsRepoApprovalMapper" >
+
+    <select id="queryFitsRepoApprovalList"  parameterType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoApprovalDto"  resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoApprovalResultDto">
+          select inst.f_form_num as fFormNum,
+               inst.aprvform_num as aprvformNum,
+               bpm.form_status as formStatus,
+               inststatus.dict_description as formStatusName,
+               to_char(to_date(inst.f_submit_date,'yyyy-MM-dd hh24:mi:ss'),'yyyy-MM-dd hh24:mi:ss') as fSubmitDate,
+               cash.pc_name as psName,
+               inst.f_execution as fExecution,
+               market.im_cname as fExecutionName,
+               repoattr.ra_repo_name as raRepoName,
+               dict.dict_description as tradeDirection,
+               inst.f_amount/10000 as fAmount,
+               inst.f_repo_rate*100 as fRepoRate,
+               inst.f_mature_amount as repoAmount,
+               bpm.f_process_num as fProcessNum,
+               inst.f_portfacct_cash as fPortfacctCash,
+               accType.Dict_Description as fAccName,
+               ffae.ent_name as entName,
+               inst.f_cp_trader as fCpTrader,
+               custCash.Hc_Acc_Number||' '||custCash.Hc_Acc_Name as fCpCashAcc,
+               inst.f_trade_date as fTradeDate,
+               inst.f_repo_code as fRepoCode,
+               inst.f_trade_direction as fTradeDirention,
+               inst.f_pledge_term as fPledgeTerm,
+               inst.f_settle_speed as fSettleSpeed,
+               inst.f_settle_date1st as fSettleDate1st,
+               inst.f_settle_date2nd as fSettleDate2nd,
+               inst.f_remarks as fRemarks,
+               bondmgt.BM_BOND_NAME as bmBondName,
+               inst.f_trd_settle_amount as fTrdSettleAmount,
+               settMethod.Dict_Description as fSettleType1st,
+               settMethod2nd.Dict_Description as fSettleType2nd,
+               u.u_firstname||u.u_lastname as traderName,
+               extractvalue(bpm.f_displayattr, '//visible_attrs/repoRateDeviation/text()')*100 as repoRateDeviation
+            from frt_fits_repopldg_inst inst
+            left join frt_fits_bpm_aprvform bpm
+            on inst.aprvform_num = bpm.form_num
+            left join frt_fits_acc_portfolio_cash cash
+            on inst.f_portfacct_cash = cash.pc_acct_num
+            left join frt_fits_repoattr repoattr
+            on inst.f_repo_code = repoattr.ra_repo_code
+            left join frt_fits_dictionary dict
+            on dict.dict_key = 'RepoDirection'
+            and dict.dict_value = inst.f_trade_direction
+            left join frt_fits_dictionary inststatus
+            on inststatus.dict_key = 'InstructionType'
+            and inststatus.dict_value = inst.f_inst_status
+            left join frt_fits_issuemarket market
+            on market.im_code=inst.f_execution
+            left join frt_fits_repopldg_bondmgt bondmgt
+            on inst.f_instrument=bondmgt.bm_bond_code
+            and inst.f_portfacct_secu=bondmgt.bm_portfolio_secu
+            and inst.f_portfacct_cash=bondmgt.bm_portfolio_cash
+            left join frt_fits_dictionary accType
+            on accType.Dict_Key='AccountingType' and accType.Dict_Value=inst.f_accounting_type
+            left join FRT_FITS_ACC_ENTERPRISE ffae
+            on to_char(ffae.ENT_ID)=inst.f_counterparty_id and ffae.ent_type='1'
+            left join frt_fits_dictionary settMethod
+            on inst.f_settle_type1st=settMethod.Dict_Value and settMethod.Dict_Key='SettlementMethod'
+            left join frt_fits_dictionary settMethod2nd
+            on inst.f_settle_type2nd=settMethod2nd.Dict_Value and settMethod2nd.Dict_Key='SettlementMethod'
+            left join frt_fits_user u
+            on inst.f_executor=u.u_id
+            left join frt_fits_acc_custody_cash custCash
+            on inst.f_cp_cashacc=custCash.Hc_Id
+            where 1=1
+        <if test="startDate!=null and startDate!=''">
+            and to_date(inst.f_submit_date,'yyyy-mm-dd hh24:mi:ss')>=to_date(#{startDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="endDate!=null and endDate!=''">
+            and to_date(inst.f_submit_date,'yyyy-mm-dd hh24:mi:ss')<![CDATA[ <= ]]>to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="userId!=null and userId!=''">
+            and exists (select 1 from FITSBPM.Act_Ru_Identitylink ari, FITSBPM.Act_Ru_Task art where
+            ari.task_id_ = art.id_ and art.proc_inst_id_ = bpm.f_process_num and ari.user_id_= #{userId,jdbcType=VARCHAR})
+        </if>
+        <if test="overUserId!=null and overUserId!=''">
+            and exists (select 1 from FITSBPM.ACT_HI_TASKINST aht where
+            aht.proc_inst_id_=bpm.f_process_num and aht.delete_reason_='completed' and aht.assignee_=#{overUserId,jdbcType=VARCHAR}
+            and exists (select 1 from FRT_FITS_USER_ROLE t where t.ur_u_login=#{userName,jdbcType=VARCHAR} and t.ur_role_num in('1','6')) )
+        </if>
+        <if test="fStatus!=null and fStatus!=''">
+            and bpm.form_status in
+            <foreach collection="fStatusList" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+
+    </select>
+</mapper>

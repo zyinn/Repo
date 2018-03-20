@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finruntech.frt.fits.pledge.repository.FitsRepoSettleInstMapper">
+
+    <insert id="insertRepoSettleInst">
+        INSERT
+        INTO
+            FRT_FITS_SETTLE_INST
+            (
+                S_ID,
+                S_TYPE,
+                DEAL_ID,
+                S_INSTRUMENT,
+                S_INSTRUMENT_TYPE,
+                SET_DATE,
+                SET_DATE_REAL,
+                SCASH_DIRECTION,
+                SSECU_DIRECTION,
+                PORT_CASH,
+                HOST_CASH,
+                PORT_SECU,
+                HOST_SECU,
+                DEAL_COUNTERPARTY_NUM,
+                SCASH_AMOUNT,
+                SSECU_VOLUME,
+                S_STATUS,
+                S_PROC_STATUS
+            )
+            VALUES
+            (
+                #{sId,jdbcType=DECIMAL},
+                #{sType,jdbcType=VARCHAR},
+                #{dealId,jdbcType=DECIMAL},
+                #{sInstrument,jdbcType=VARCHAR},
+                #{sInstrumentType,jdbcType=VARCHAR},
+                #{setDate,jdbcType=VARCHAR},
+                #{setDateReal,jdbcType=VARCHAR},
+                #{scashDirection,jdbcType=VARCHAR},
+                #{ssecuDirection,jdbcType=VARCHAR},
+                #{portCash,jdbcType=VARCHAR},
+                #{hostCash,jdbcType=VARCHAR},
+                #{portSecu,jdbcType=VARCHAR},
+                #{hostSecu,jdbcType=VARCHAR},
+                #{dealCounterpartyNum,jdbcType=VARCHAR},
+                #{scashAmount,jdbcType=DECIMAL},
+                #{ssecuVolume,jdbcType=DECIMAL},
+                #{sStatus,jdbcType=VARCHAR},
+                #{sProcStatus,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <!-- 结算指令查询-->
+    <select id="settleInstQry" parameterType="java.util.Map" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoSettleInstDto">
+        SELECT
+            TO_CHAR(settleInst.S_ID) AS sId,
+            settleInst.S_TYPE as sType,
+            settleInst.S_INSTRUMENT as sInstrument,
+            settleInst.S_INSTRUMENT_TYPE as sInstrumentType,
+            settleInst.SET_DATE as setDate,
+            settleInst.SET_DATE_REAL as setDateReal,
+            settleInst.SCASH_DIRECTION as scashDirection,
+            settleInst.SSECU_DIRECTION as ssecuDirection,
+            settleInst.PORT_CASH as portCash,
+            settleInst.HOST_CASH as hostCash,
+            settleInst.PORT_SECU as portSecu,
+            settleInst.HOST_SECU as hostSecu,
+            settleInst.SCASH_AMOUNT as scashAmount,
+            settleInst.SSECU_VOLUME as ssecuVolume,
+            settleInst.S_STATUS as sStatus,
+            settleInst.S_PROC_STATUS as sProcStatus,
+            NVL(deal.DE_REPO_AMOUNT,0)+NVL(deal.DE_PLEDGED_INST,0) AS matureAmount,
+            repoPldgOrd.ORD_REPO_RATE*100                          AS repoRate,
+            repoPldgOrd.ORD_SETTLE_AMOUNT                          AS instSettleAmount,
+            repoPldgOrd.ORD_AMOUNT/10000                           AS instAmount,
+            tradeDic.DICT_DESCRIPTION                              AS tradeDirectionName,
+            sStatusDic.DICT_DESCRIPTION                            AS sStatusName,
+            portfolioCash.PC_NAME                                  AS psName,
+            repoAttr.RA_REPO_NAME                                  AS raRepoName,
+            enterprise.ENT_NAME                                    AS deCounterpartyName,
+            deal.DE_NUM                                            AS deNum,
+            deal.DE_EXEID_NUM                                      AS deExeidNum,
+            deal.DE_SETTLEDATE1ST                                  AS deSettleDate1st,
+            deal.DE_SETTLEDATE2ND                                  AS deSettleDate2nd,
+            deal.DE_REPO_CODE                                      AS deRepoCode,
+            repoInst.F_TRADE_DATE                                  AS fTradeDate
+        FROM
+            FRT_FITS_SETTLE_INST settleInst
+        INNER JOIN
+            V_FITS_REPOPLDG_DEAL deal
+        ON
+            settleInst.DEAL_ID = deal.DE_DEAL_ID
+        INNER JOIN
+            V_FRT_FITS_REPOPLDG_ORD repoPldgOrd
+        ON
+            repoPldgOrd.ORD_NUM= deal.DE_ORDER_NUM
+        LEFT JOIN
+            FRT_FITS_ACC_PORTFOLIO_CASH portfolioCash
+        ON
+            portfolioCash.PC_ACCT_NUM = settleInst.PORT_CASH
+        LEFT JOIN
+            FRT_FITS_DICTIONARY tradeDic
+        ON
+            settleInst.SSECU_DIRECTION = tradeDic.DICT_VALUE
+        AND tradeDic.Dict_Key = 'RepoDirection'
+        LEFT JOIN
+           FRT_FITS_DICTIONARY sStatusDic
+        ON
+            settleInst.S_STATUS = sStatusDic.DICT_VALUE
+        AND sStatusDic.Dict_Key = 'SIConfirmationStatus'
+        LEFT JOIN
+            FRT_FITS_REPOATTR repoAttr
+        ON
+            settleInst.S_INSTRUMENT=repoAttr.RA_REPO_CODE
+        LEFT JOIN
+            FRT_FITS_ACC_ENTERPRISE enterprise
+        ON  enterprise.ENT_CODE= settleInst.DEAL_COUNTERPARTY_NUM
+        LEFT JOIN
+            V_FRT_FITS_REPOPLDG_INST repoInst
+        ON repoPldgOrd.ORD_INVINST_NUM = repoInst.F_FORM_NUM
+        WHERE
+            settleInst.S_INSTRUMENT_TYPE = 'RepoPldg'
+        <if test="dePortfolioCash != null and dePortfolioCash != '' ">
+            AND settleInst.PORT_CASH = #{dePortfolioCash,jdbcType=VARCHAR}
+        </if>
+        <if test="sType != null and sType != '' ">
+            AND settleInst.S_TYPE = #{sType,jdbcType=VARCHAR}
+        </if>
+        <if test="sStatus != null and sStatus != '' ">
+            AND settleInst.S_STATUS = #{sStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="execution != null and execution != '' ">
+            AND deal.DE_EXECUTION_MARKET = #{execution,jdbcType=VARCHAR}
+        </if>
+        <if test="startDate != null and startDate != '' ">
+            AND to_date(settleInst.SET_DATE,'yyyy-mm-dd') &gt;= to_date(#{startDate,jdbcType=VARCHAR},'yyyy-mm-dd')
+        </if>
+        <if test="endDate != null and endDate != '' ">
+            AND to_date(settleInst.SET_DATE,'yyyy-mm-dd') &lt;= to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd')
+        </if>
+    </select>
+
+    <select id="qrySettleInstByPk" parameterType="java.util.Map" resultType="com.finruntech.frt.fits.pledge.model.FitsSettleInstEntity">
+       select
+            settleInst.S_ID as sId,
+            settleInst.S_TYPE as sType,
+            settleInst.DEAL_ID as dealId ,
+            settleInst.S_INSTRUMENT as sInstrument,
+            settleInst.S_INSTRUMENT_TYPE as sInstrumentType,
+            settleInst.SET_DATE as setDate,
+            settleInst.SET_DATE_REAL as setDateReal,
+            settleInst.SCASH_DIRECTION as scashDirection,
+            settleInst.SSECU_DIRECTION as ssecuDirection,
+            settleInst.PORT_CASH as portCash,
+            settleInst.HOST_CASH as hostCash,
+            settleInst.PORT_SECU as portSecu,
+            settleInst.HOST_SECU as hostSecu,
+            settleInst.DEAL_COUNTERPARTY_NUM as dealCounterpartyNum,
+            settleInst.SCASH_AMOUNT as scashAmount,
+            settleInst.SSECU_VOLUME as ssecuVolume,
+            settleInst.S_STATUS as sStatus,
+            settleInst.S_PROC_STATUS as sProcStatus
+        FROM
+            FRT_FITS_SETTLE_INST settleInst
+         WHERE
+           settleInst.S_ID = #{sId, jdbcType=DECIMAL} AND  settleInst.SET_DATE = #{setDate, jdbcType=VARCHAR}
+    </select>
+
+    <!-- 修改结算指令状态、金额 -->
+    <update id="updateSettleInst" parameterType="java.util.Map" >
+        UPDATE
+          FRT_FITS_SETTLE_INST
+        SET
+          SET_DATE = #{setDate, jdbcType=VARCHAR}
+        <if test="sStatus !=null and sStatus !=''">
+            ,S_STATUS = #{sStatus, jdbcType=VARCHAR}
+        </if>
+        <if test="scashAmount !=null">
+            ,SCASH_AMOUNT = #{scashAmount, jdbcType=DECIMAL}
+        </if>
+        WHERE
+          S_ID = #{sId, jdbcType=DECIMAL} AND  SET_DATE = #{setDate, jdbcType=VARCHAR}
+    </update>
+
+
+    <select id="nibRepoPldgQuery" parameterType="java.util.Map" resultType="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgQryDto">
+             select cash.pc_name as pcName,
+                    posi.p_repo_trddate as pRepoTrddate,
+                    repoattr.ra_repo_code as raRepoCode,
+                    repoattr.ra_repo_name as raRepoName,
+                    avg(posi.p_repo_rate* 100) as pRepoRate,
+                    sum(posi.p_net_amount) as pNetAmount,
+                    sum(posi.p_return_amount) as pReturnAmount,
+                    sum(posi.p_profit) as pProfit,
+                    dict.dict_description as tradeDirection,
+                    decode(posi.p_setl_speed, 0, 'T+0', 'T+1') as pSetlSpeed,
+                    posi.p_end_setldate as pEndSetldate,
+                    ffae.ent_name as entName,
+                    sum(posi.p_dailyintst) as pDailyintst,
+                    sum(posi.p_accrintst) as pAccrintst,
+                    settMethod.Dict_Description as fSettleType1st,
+                    settMethod2nd.Dict_Description as fSettleType2nd
+
+                  from V_FITS_REPOPLDG_POS posi
+                  left join frt_fits_acc_portfolio_cash cash
+                    on posi.p_portfolio_cash = cash.pc_acct_num
+                  left join frt_fits_repoattr repoattr
+                    on posi.p_repo_code = repoattr.ra_repo_code
+                  left join frt_fits_dictionary dict
+                    on dict.dict_key = 'RepoDirection'
+                    and dict.dict_value = posi.p_repo_direct
+                  left join FRT_FITS_ACC_ENTERPRISE ffae
+                    on ffae.ENT_CODE=posi.p_counterparty and ffae.ent_type='1'
+                  left join frt_fits_dictionary settMethod
+                    on posi.p_startsetl_type=settMethod.Dict_Value and settMethod.Dict_Key='SettlementMethod'
+                  left join frt_fits_dictionary settMethod2nd
+                    on posi.p_endsetl_type=settMethod2nd.Dict_Value and settMethod2nd.Dict_Key='SettlementMethod'
+                  where 1=1
+                <if test="startDate != null and startDate != '' ">
+                    AND to_date(posi.p_repo_trddate,'yyyy-mm-dd') &gt;= to_date(#{startDate,jdbcType=VARCHAR},'yyyy-mm-dd')
+                </if>
+                <if test="endDate != null and endDate != '' ">
+                    AND to_date(posi.p_repo_trddate,'yyyy-mm-dd') &lt;= to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd')
+                </if>
+                <if test="endSetlDate != null and endSetlDate != '' ">
+                    AND to_date(posi.p_end_setldate,'yyyy-mm-dd') = to_date(#{endSetlDate,jdbcType=VARCHAR},'yyyy-mm-dd')
+                </if>
+                <if test="portCash != null and portCash != '' ">
+                    AND posi.p_portfolio_cash=#{portCash,jdbcType=VARCHAR}
+                </if>
+                group by cash.pc_name,posi.p_repo_trddate,repoattr.ra_repo_code,repoattr.ra_repo_name,
+                         dict.dict_description,posi.p_setl_speed,posi.p_end_setldate,ffae.ent_name,
+                         settMethod.Dict_Description,settMethod2nd.Dict_Description
+    </select>
+</mapper>

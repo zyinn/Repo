@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--引入配置 -->
+    <properties resource="application.properties"/>
+
+    <context id="Oracle" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!--jdbc druid链接池 -->
+        <jdbcConnection driverClass="${druid.driver-class}"
+                        connectionURL="${druid.url}"
+                        userId="${druid.username}"
+                        password="${druid.password}">
+        </jdbcConnection>
+
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator targetPackage="com.finruntech.frt.fits.pledge.model" targetProject="src/main/java">
+            <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 生成mapper.xml文件 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
+        <!-- 生成mapper.xml对应client，也就是接口repository -->
+        <javaClientGenerator targetPackage="com.finruntech.frt.fits.pledge.repository" targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!--<table tableName="%">-->
+            <!--&lt;!&ndash;oracle 配置&ndash;&gt;-->
+            <!--<generatedKey column="" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
+        <!--</table>-->
+    </context>
+</generatorConfiguration>

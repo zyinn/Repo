@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--<settings>-->
+        <!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+    <!--</settings>-->
+
+    <typeAliases>
+        <typeAlias alias="FitsRepoPldgInstEntity" type="com.finruntech.frt.fits.pledge.model.FitsRepoPldgInstEntity" />
+        <typeAlias alias="FitsRepoPldgOrdEntity" type="com.finruntech.frt.fits.pledge.model.FitsRepoPldgOrdEntity"/>
+        <typeAlias alias="FitsRepoPldgOrdDto" type="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgOrdDto"/>
+        <typeAlias alias="FitsRepoPldgBondMgtEntity" type="com.finruntech.frt.fits.pledge.model.FitsRepoPldgBondMgtEntity" />
+        <typeAlias alias="FitsAccPortfolioSecuEntity" type="com.finruntech.frt.fits.pledge.model.FitsAccPortfolioSecuEntity" />
+        <typeAlias alias="FitsRepoPldgBondMgtDto" type="com.finruntech.frt.fits.pledge.model.dto.FitsRepoPldgBondMgtDto" />
+    </typeAliases>
+    <mappers>
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FitsPledgeInstMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FitsRepoPldgBondMgtMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FitsAccPortfolioSecuMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FitsRepoPldgOrdMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FitsRepoAttrMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FitsBondPriceMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FitsPledgeDealMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FitsRepoPldgMgtMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FrtFitsBondmgtFlashMapper.xml" />
+        <mapper resource="com/finruntech/frt/fits/pledge/repository/FrtFitsFundFlashMapper.xml" />
+    </mappers>
+</configuration>
